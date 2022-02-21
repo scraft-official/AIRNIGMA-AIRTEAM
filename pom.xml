@@ -39,6 +39,27 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <scope>compile</scope>
   </dependency>
   
+  <!-- REFLECTION LIBRARY -->
+  <dependency>
+    <groupId>org.reflections</groupId>
+    <artifactId>reflections</artifactId>
+    <version>0.10.2</version>
+  </dependency>
+  
+  <!-- SLF4J -->
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.33</version>
+    <scope>compile</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>1.7.32</version>
+    <scope>compile</scope>
+  </dependency>
+  
   <!-- JUNIT -->
   <dependency>
       <groupId>org.junit.jupiter</groupId>

@@ -27,17 +27,15 @@ public class MiddleBarPanel extends JPanel{
 	private int dotSize = 4;
 	
 	public MiddleBarPanel() {
-		setBorder(new EmptyBorder(30, 10, 30, 10));
+		setBorder(new EmptyBorder(30, 25, 30, 25));
 		setOpaque(false);
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("15px"),
-				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("center:default:grow"),
-				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("15px"),
 				ColumnSpec.decode("center:190px:grow"),
-				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("15px"),
 				ColumnSpec.decode("center:default:grow"),
-				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("15px"),},
 			new RowSpec[] {
 				FormSpecs.RELATED_GAP_ROWSPEC,
@@ -45,28 +43,29 @@ public class MiddleBarPanel extends JPanel{
 				RowSpec.decode("10px"),
 				FormSpecs.DEFAULT_ROWSPEC,
 				RowSpec.decode("10px"),
+				RowSpec.decode("25px"),
 				RowSpec.decode("fill:default:grow"),}));
 		
 		JLabel text = new JLabel("AIRNIGMA");
 		text.setForeground(new Color(250,250,250));
 		text.setFont(new Font("Tahoma", Font.BOLD, 43));
-		add(text, "3, 2, 5, 1, center, default");
+		add(text, "2, 2, 5, 1, center, default");
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.WHITE);
-		add(separator, "5, 3, fill, default");
+		add(separator, "4, 3, fill, default");
 		
 		JLabel lblUstawienia = new JLabel("• USTAWIENIA •");
 		lblUstawienia.setForeground(new Color(250, 250, 250));
 		lblUstawienia.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		add(lblUstawienia, "5, 4");
+		add(lblUstawienia, "4, 4");
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(Color.WHITE);
-		add(separator_1, "5, 5, fill, default");
+		add(separator_1, "4, 5, fill, default");
 		
 		JPanel panel = new OptionsPanel();
-		add(panel, "3, 6, 5, 1, fill, fill");
+		add(panel, "3, 7, 3, 1, fill, fill");
 	}
 	
 	@Override

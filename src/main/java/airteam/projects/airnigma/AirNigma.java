@@ -20,6 +20,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
+import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.components.InputPanel;
 import airteam.projects.airnigma.components.MiddleBarPanel;
 import airteam.projects.airnigma.components.OutputPanel;
@@ -60,6 +61,9 @@ public class AirNigma extends JFrame {
 		backPanel.add(new OutputPanel(), "3, 1, fill, fill");
 		
 		getContentPane().add(backPanel);
+		
+		CipherManager.registerAllCiphers();
+		
 		setVisible(true);
 	}
 	

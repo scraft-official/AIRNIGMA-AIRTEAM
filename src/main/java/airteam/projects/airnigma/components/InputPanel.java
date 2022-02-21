@@ -19,11 +19,17 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import airteam.projects.airnigma.AirNigma;
+import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.components.templates.CustomButtonUI;
 import airteam.projects.airnigma.components.templates.CustomTextArea;
 import airteam.projects.airnigma.components.templates.JScrollBarUI;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
+import airteam.projects.airnigma.utilities.LogUtility;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -34,6 +40,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class InputPanel extends JPanel{
+	private static CustomTextArea textPane = new CustomTextArea();
 	private int borderPadding = 14;
 	private int borderRadius = 20;
 	private int borderSize = 2;
@@ -47,14 +54,25 @@ public class InputPanel extends JPanel{
 				RowSpec.decode("default:grow"),
 				RowSpec.decode("fill:55px"),}));
 		
-		CustomTextArea textPane = new CustomTextArea();
 		textPane.setBorder(new EmptyBorder(5,15,15,10));
 		textPane.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		textPane.setForeground(new Color(83, 84, 87));
 		textPane.setCaretColor(new Color(83, 84, 87));
 		textPane.setUnfilledText("Wprowadź tekst do zaszyfrowania...");
-		
-		JScrollPane textScrollPane = new JScrollPane();
+		textPane.getDocument().addDocumentListener(new DocumentListener() {
+		  public void changedUpdate(DocumentEvent e) {
+		  	if(AirNigma.getFrame().getFocusOwner() == textPane)
+		  		CipherManager.updateOutput();
+		  }
+		  public void removeUpdate(DocumentEvent e) {
+		  	if(AirNigma.getFrame().getFocusOwner() == textPane)
+		  		CipherManager.updateOutput();
+		  }
+		  public void insertUpdate(DocumentEvent e) {
+		  	if(AirNigma.getFrame().getFocusOwner() == textPane)
+		  		CipherManager.updateOutput();
+		  }
+		});
 
 		JScrollBar textScrollbar = new JScrollBar();
 		textScrollbar.setUI(new JScrollBarUI());
@@ -64,6 +82,7 @@ public class InputPanel extends JPanel{
 		textScrollbar.setForeground(new Color(58, 58, 61));
 		textScrollbar.setBackground(new Color(57, 135, 80, 0));
 		
+		JScrollPane textScrollPane = new JScrollPane();
 		textScrollPane.setBorder(new EmptyBorder(0,0,0,6));
 		textScrollPane.getViewport().setOpaque(false);
 		textScrollPane.setOpaque(false);
@@ -105,6 +124,13 @@ public class InputPanel extends JPanel{
 		add(buttonImport, "1, 2, fill, fill");
 	}
 	
+	public static String getInputText() {
+		return textPane.getText();
+	}
+	
+	public static void updateInputText(String text) {
+		textPane.setText(text);
+	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
