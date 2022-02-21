@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<modelVersion>4.0.0</modelVersion>
+
+<groupId>airteam.projects.airnigma</groupId>
+<artifactId>AirTeam-AirNigma</artifactId>
+<version>1.0.0</version>
+<name>AirNigma - AirTeam</name>
+
+
+<properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <maven.compiler.source>1.11</maven.compiler.source>
+  <maven.compiler.target>1.11</maven.compiler.target>
+</properties>
+
+<dependencies>
+  <!-- MIGLAYOUT -->
+  <dependency>
+    <groupId>com.miglayout</groupId>
+    <artifactId>miglayout-swing</artifactId>
+    <version>5.0</version>
+  </dependency>
+
+  <!-- JGOODIES -->
+  <dependency>
+    <groupId>com.jgoodies</groupId>
+    <artifactId>jgoodies-forms</artifactId>
+    <version>1.8.0</version>
+  </dependency>
+
+  <!-- JSON -->
+  <dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20210307</version>
+    <scope>compile</scope>
+  </dependency>
+  
+  <!-- JUNIT -->
+  <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.7.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.7.2</version>
+      <scope>test</scope>
+    </dependency>
+</dependencies>
+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.8.1</version>
+      <configuration>
+      <source>1.11</source>
+      <target>1.11</target>
+      <encoding>UTF-8</encoding>
+      </configuration>
+    </plugin>
+    
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.1</version>
+    </plugin>
+    
+    <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-surefire-plugin</artifactId>
+	    <version>2.21.0</version>
+	    <dependencies>
+	        <dependency>
+	            <groupId>org.junit.platform</groupId>
+	            <artifactId>junit-platform-surefire-provider</artifactId>
+	            <version>1.2.0-M1</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.junit.jupiter</groupId>
+	            <artifactId>junit-jupiter-engine</artifactId>
+	            <version>5.2.0-M1</version>
+	        </dependency>
+	    </dependencies>
+	</plugin>
+
+    <!-- CREATE A DEPENDENCY FULL JAR FILE -->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals> <goal>shade</goal> </goals>
+          <configuration>
+            <shadedArtifactAttached>true</shadedArtifactAttached>
+            <transformers>
+              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                <mainClass>airteam.projects.airlogo.AirLogo</mainClass>
+              </transformer>
+            </transformers>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+
+    <!-- CONVERT .JAR FILE TO .EXE WITH LAUNCH4J -->
+    <plugin>
+      <groupId>com.akathist.maven.plugins.launch4j</groupId>
+      <artifactId>launch4j-maven-plugin</artifactId>
+      <version>1.7.25</version>
+      <executions>
+        <execution>
+          <id>jar-to-exe</id>
+          <phase>package</phase>
+          <goals> <goal>launch4j</goal> </goals>
+          <configuration>
+            <headerType>gui</headerType>
+            <stayAlive>true</stayAlive>
+            <icon>${project.basedir}/build-libs/app-icon.ico</icon>
+            <singleInstance> <mutexName>AirLogo-AirTeam</mutexName> </singleInstance>
+            <jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
+            <outfile>${project.build.directory}/${project.name}.exe</outfile>
+ 
+            <classPath><mainClass>airteam.projects.airlogo.AirLogo</mainClass></classPath>
+            <jre>
+              <minVersion>1.11.0</minVersion>
+              <jdkPreference>preferJre</jdkPreference>
+              <path>./libs/jre</path>
+            </jre>
+            <versionInfo>
+              <fileVersion>1.0.0.0</fileVersion>
+              <txtFileVersion>${project.version}</txtFileVersion>
+              <fileDescription>${project.name}</fileDescription>
+              <copyright>C</copyright>
+              <productVersion>1.0.0.0</productVersion>
+              <txtProductVersion>1.0.0.0</txtProductVersion>
+              <productName>${project.name}</productName>
+              <internalName>${project.artifactId}</internalName>
+              <originalFilename>${project.name}.exe</originalFilename>
+           </versionInfo>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+
+	<!-- EXE Signature to remove AntiVirus false positives and windows defender popup -->
+	<!-- KeyGen Command 'keytool -genkey -alias airteam-airlogo -keyalg RSA -keystore "{DIR ON PC}\build-libs\app-keystore.jks"' -->
+	<plugin>
+     <groupId>net.jsign</groupId>
+     <artifactId>jsign-maven-plugin</artifactId>
+     <version>4.0</version>
+     <executions>
+       <execution>
+         <goals>
+           <goal>sign</goal>
+         </goals>
+         <configuration>
+           <file>${project.build.directory}/${project.name}.exe</file>
+           <name>${project.name}</name>
+           <url>https://science-cup.pl</url>
+           <keystore>${project.basedir}/build-libs/app-keystore.jks</keystore>
+           <alias>airteam-airlogo</alias>
+           <storepass>3kafBGhFPwBMfX9y</storepass>
+         </configuration>
+       </execution>
+   	 </executions>
+   </plugin>
+
+    <!-- CREATE ZIP FILE WITH JRE LIBS AND .EXE -->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <version>3.3.0</version>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals> <goal>single</goal> </goals>
+          <configuration>
+            <finalName>AirLogo - AirTeam</finalName>
+            <appendAssemblyId>false</appendAssemblyId>
+            <descriptors> <descriptor>${project.basedir}/src/main/resources/assembly.xml</descriptor> </descriptors>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+</project>
