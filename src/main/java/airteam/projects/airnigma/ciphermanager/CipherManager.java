@@ -14,8 +14,11 @@ import airteam.projects.airnigma.components.OutputPanel;
 import airteam.projects.airnigma.utilities.LogUtility;
 
 public class CipherManager {
-	public static ArrayList<CipherObject> registeredCipheres = new ArrayList<>();
-	public static CipherObject selectedCipher;
+	private static ArrayList<CipherObject> registeredCipheres = new ArrayList<>();
+	private static CipherObject selectedCipher;
+	
+	private static CIPHER_MODE cipherMode = CIPHER_MODE.ENCODE;
+	
 	
 	public static void registerAllCiphers() {
 		Reflections reflections = new Reflections("airteam.projects.airnigma.ciphermanager.ciphers");
@@ -35,15 +38,18 @@ public class CipherManager {
 	}
 	
 	public static void updateOutput() {
-		OutputPanel.updateOutputText(selectedCipher.encode(InputPanel.getInputText()));
+		if(cipherMode == CIPHER_MODE.ENCODE) OutputPanel.updateOutputText(selectedCipher.encode(InputPanel.getInputText()));
+		else OutputPanel.updateOutputText(selectedCipher.decode(InputPanel.getInputText()));
 	}
 	
 	public static void updateInput() {
-		InputPanel.updateInputText(selectedCipher.decode(OutputPanel.getOutputText()));
+		if(cipherMode == CIPHER_MODE.ENCODE) InputPanel.updateInputText(selectedCipher.decode(OutputPanel.getOutputText()));
+		else InputPanel.updateInputText(selectedCipher.encode(OutputPanel.getOutputText()));
 	}
 	
 	public static void selectCipher(int id) {
-		selectedCipher = registeredCipheres.get(id);
+		selectedCipher = registeredCipheres.get(registeredCipheres.size()-1);
+		selectedCipher.showOptions();
 		OptionsPanel.setCipherOptionsPanel(selectedCipher);
 	}
 	
@@ -51,6 +57,7 @@ public class CipherManager {
 		for(CipherObject c : registeredCipheres) {
 			if(c == cipher) selectedCipher = cipher;
 		}
+		selectedCipher.showOptions();
 		OptionsPanel.setCipherOptionsPanel(selectedCipher);
 	}
 	
@@ -60,5 +67,19 @@ public class CipherManager {
 	
 	public static CipherObject getSelectedCipher() {
 		return selectedCipher;
+	}
+	
+	public static CIPHER_MODE getSelectedMode() {
+		return cipherMode;
+	}
+	
+	public static void selectCipherMode(CIPHER_MODE mode) {
+		cipherMode = mode;
+		selectedCipher.showOptions();
+	}
+	
+	public enum CIPHER_MODE {
+		DECODE,
+		ENCODE
 	}
 }

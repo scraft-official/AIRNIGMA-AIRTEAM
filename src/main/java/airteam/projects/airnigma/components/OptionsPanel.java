@@ -40,12 +40,16 @@ public class OptionsPanel extends JPanel {
 	public OptionsPanel() {
 		setOpaque(false);
 		setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("center:default:grow"),
+				ColumnSpec.decode("left:default:grow"),
 				ColumnSpec.decode("8px"),},
 			new RowSpec[] {
 				RowSpec.decode("55px"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("fill:default:grow"),}));
+				RowSpec.decode("fill:default:grow"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("fill:50px"),
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("50px"),}));
 		
 		combobox.setTitleText("WYBRANY SZYFR");
     combobox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -57,7 +61,7 @@ public class OptionsPanel extends JPanel {
 
       @Override
       public void popupMenuWillBecomeInvisible(PopupMenuEvent pme) {
-      	
+      	CipherManager.selectCipher(combobox.getSelectedIndex());
       }
       
       @Override

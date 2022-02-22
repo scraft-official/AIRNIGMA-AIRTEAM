@@ -2,7 +2,6 @@ package airteam.projects.airnigma.ciphermanager.ciphers;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -13,7 +12,6 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
 import airteam.projects.airnigma.ciphermanager.CipherManager;
-import airteam.projects.airnigma.ciphermanager.CipherManager.CIPHER_MODE;
 import airteam.projects.airnigma.components.InputPanel;
 import airteam.projects.airnigma.components.templates.CustomTextField;
 import airteam.projects.airnigma.utilities.LogUtility;
@@ -22,19 +20,16 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.JSpinner;
-import javax.swing.JLabel;
 
-public class CIP_ROT13 extends CipherObject {
-	private String cipherName = "ROT13 (Szyfr Cezara)";
+public class CIP_VERNAM extends CipherObject {
+	private String cipherName = "VERNAM (One-Time-Pad)";
 	
 	private String alphabetText = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private String lowcaseAlphabet = alphabetText.toLowerCase();
 	private String upcaseAlphabet = alphabetText.toUpperCase();
 	
-	private int displacement = 13; 
 	
-	
-	public CIP_ROT13() {
+	public CIP_VERNAM() {
 		setOpaque(false);
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("default:grow"),},
@@ -43,47 +38,12 @@ public class CIP_ROT13 extends CipherObject {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("45px"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("125px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("35px"),}));
+				FormSpecs.DEFAULT_ROWSPEC,}));
+		
 	}
 	
 	@Override
 	public void showOptions() {
-		removeAll();
-		
-		CustomTextField displacementField = new CustomTextField("PRZESKOK LITER");
-		displacementField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		displacementField.setLineColor(new Color(150,150,150), new Color(250,250,250));
-		displacementField.setForeground(new Color(250,250,250));
-		displacementField.setCaretColor(new Color(250,250,250));
-		displacementField.setText(String.valueOf(displacement));
-		displacementField.setRquiredHint("* Wprowadź liczbę!");
-		displacementField.getDocument().addDocumentListener(new DocumentListener() {
-		  public void changedUpdate(DocumentEvent e) {
-		  	updateDisplacement();
-		  }
-		  public void removeUpdate(DocumentEvent e) {
-		  	updateDisplacement();
-		  }
-		  public void insertUpdate(DocumentEvent e) {
-		  	updateDisplacement();
-		  }
-
-		  public void updateDisplacement() {
-		  	try {
-		  		int value = Integer.valueOf(displacementField.getText());
-		  		if(value >= alphabetText.length()) value = (value - ((value / alphabetText.length()) * alphabetText.length()));
-		  		displacement = value;
-		  		displacementField.showRequiredHint(false);
-		  		CipherManager.updateOutput();
-		  		CipherManager.updateInput();
-		  	} catch(Exception e) {
-		  		displacementField.showRequiredHint(true);
-		  	}
-		  }
-		});
-		
 		CustomTextField alphabetField = new CustomTextField("ZASTOSOWANY ALFABET");
 		alphabetField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		alphabetField.setLineColor(new Color(150,150,150), new Color(250,250,250));
@@ -113,13 +73,6 @@ public class CIP_ROT13 extends CipherObject {
 		  	lowcaseAlphabet = alphabetText.toLowerCase();
 		  	upcaseAlphabet = alphabetText.toUpperCase();
 		  	
-		  	
-		  	try {
-		  		int value = Integer.valueOf(displacementField.getText());
-		  		if(value >= alphabetText.length()) value = (value - ((value / alphabetText.length()) * alphabetText.length()));
-		  		displacement = value; 
-		  	} catch(Exception e) { displacement = (displacement - ((displacement / alphabetText.length()) * alphabetText.length())); }
-		  	
 		  	alphabetField.showRequiredHint(false);
 		  	
 		  	CipherManager.updateOutput();
@@ -127,21 +80,8 @@ public class CIP_ROT13 extends CipherObject {
 		  }
 		});
 		
-		add(displacementField, "1, 1, fill, fill");
-		add(alphabetField, "1, 3, fill, fill");
+		add(alphabetField, "1, 1, fill, fill");
 		
-		if(CipherManager.getSelectedMode() == CIPHER_MODE.DECODE) {
-			JLabel cipherChart = new JLabel("TEST");
-			renderCipherChar();
-			add(cipherChart, "1, 5, fill, fill");
-		}
-	}
-	
-	public void renderCipherChar() {
-		String inputText = InputPanel.getInputText();
-		for(char c : upcaseAlphabet.toCharArray()) {
-			LogUtility.logInfo(c + " " + inputText.replace(c, Character.MIN_VALUE).length());
-		}
 	}
 	
 	@Override

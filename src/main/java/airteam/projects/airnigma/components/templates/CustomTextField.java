@@ -82,7 +82,7 @@ public class CustomTextField extends JTextField {
     g2d.drawString(title, in.right, (int) (in.top + textY + ft.getAscent() - 18));
     
     if(showRequiredHint) {
-    	g2d.setColor(new Color(209, 69, 67));
+    	g2d.setColor(new Color(209, 88, 88));
     	int posX;
     	if(isFocused || !getText().equals("")) {
     		posX = in.right + ft.stringWidth(title) + 10;

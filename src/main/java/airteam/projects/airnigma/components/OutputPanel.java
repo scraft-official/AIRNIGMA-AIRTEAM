@@ -42,6 +42,11 @@ import javax.swing.JFrame;
 
 public class OutputPanel extends JPanel {
 	private static CustomTextArea textPane = new CustomTextArea();
+	private static OutputPanel instance;
+	
+	
+	private static String title = "ZASZYFROWANY TEKST";
+	
 	private int borderPadding = 14;
 	private int borderRadius = 20;
 	private int borderSize = 2;
@@ -59,7 +64,7 @@ public class OutputPanel extends JPanel {
 		textPane.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		textPane.setForeground(new Color(83, 84, 87));
 		textPane.setCaretColor(new Color(83, 84, 87));
-		textPane.setUnfilledText("Wprowadź tekst do odszyfrowania...");
+		textPane.setUnfilledText("Zaszyfrowany tekst...");
 		textPane.getDocument().addDocumentListener(new DocumentListener() {
 		  public void changedUpdate(DocumentEvent e) {
 		  	if(AirNigma.getFrame().getFocusOwner() == textPane)
@@ -123,12 +128,22 @@ public class OutputPanel extends JPanel {
       }
     });
 		
+		instance = this;
+		
 		add(buttonExport, "1, 2, fill, fill");
 	}
 	
 	public static String getOutputText() {
 		return textPane.getText();
 	}
+	
+	public static void setTitleAndHintText(String titleText, String hintText) {
+		title = titleText;
+		textPane.setUnfilledText(hintText);
+		instance.repaint();
+	}
+	
+	
 	
 	public static void updateOutputText(String text) {
 		textPane.setText(text);
@@ -157,8 +172,8 @@ public class OutputPanel extends JPanel {
 		
 		g2d.setFont(new Font("Tahoma", Font.BOLD, 14));
 		g2d.setColor(new Color(56, 57, 59));
-		g2d.drawString("ODSZYFROWYWANIE", 10, 35);
+		g2d.drawString(title, 10, 35);
 		
-		g2d.fillRoundRect(10, 40, g2d.getFontMetrics().stringWidth("ODSZYFROWYWANIE"), 2, 2, 2);
+		g2d.fillRoundRect(10, 40, g2d.getFontMetrics().stringWidth(title), 2, 2, 2);
 	}
 }
