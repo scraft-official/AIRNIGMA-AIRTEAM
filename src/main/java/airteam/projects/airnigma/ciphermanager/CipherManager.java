@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
+import airteam.projects.airnigma.AirNigma;
 import airteam.projects.airnigma.ciphermanager.ciphers.CIP_ROT13;
 import airteam.projects.airnigma.ciphermanager.ciphers.CipherObject;
 import airteam.projects.airnigma.components.InputPanel;
@@ -49,15 +50,15 @@ public class CipherManager {
 	
 	public static void selectCipher(int id) {
 		selectedCipher = registeredCipheres.get(registeredCipheres.size()-1);
-		selectedCipher.showOptions();
 		OptionsPanel.setCipherOptionsPanel(selectedCipher);
+		selectedCipher.showOptions();
 	}
 	
 	public static void selectCipher(CipherObject cipher) {
 		for(CipherObject c : registeredCipheres) {
 			if(c == cipher) selectedCipher = cipher;
 		}
-		selectedCipher.showOptions();
+		if(AirNigma.getFrame().isVisible()) selectedCipher.showOptions();
 		OptionsPanel.setCipherOptionsPanel(selectedCipher);
 	}
 	

@@ -2,6 +2,9 @@ package airteam.projects.airnigma.ciphermanager.ciphers;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.JSpinner;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class CIP_ROT13 extends CipherObject {
@@ -30,6 +34,8 @@ public class CIP_ROT13 extends CipherObject {
 	private String alphabetText = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private String lowcaseAlphabet = alphabetText.toLowerCase();
 	private String upcaseAlphabet = alphabetText.toUpperCase();
+	
+	JLabel cipherChart = new JLabel();
 	
 	private int displacement = 13; 
 	
@@ -127,21 +133,76 @@ public class CIP_ROT13 extends CipherObject {
 		  }
 		});
 		
+		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
+		
 		add(displacementField, "1, 1, fill, fill");
 		add(alphabetField, "1, 3, fill, fill");
-		
-		if(CipherManager.getSelectedMode() == CIPHER_MODE.DECODE) {
-			JLabel cipherChart = new JLabel("TEST");
-			renderCipherChar();
-			add(cipherChart, "1, 5, fill, fill");
-		}
+		add(cipherChart, "1, 5, center, center");
 	}
 	
-	public void renderCipherChar() {
-		String inputText = InputPanel.getInputText();
+	public BufferedImage renderCipherChar() {
+		String inputText = InputPanel.getInputText().toUpperCase();
+		HashMap<Character, Integer> alphaCountMap = new HashMap<>();
+		
+		int width = getWidth();
+		if(getWidth() == 0) width = 230;
+		
+		int highestNumber = 1;
 		for(char c : upcaseAlphabet.toCharArray()) {
-			LogUtility.logInfo(c + " " + inputText.replace(c, Character.MIN_VALUE).length());
+			int count = inputText.length() - inputText.replace(String.valueOf(c), "").length();
+			alphaCountMap.put(c, count);
+			if(count > highestNumber) highestNumber = count;
+			
 		}
+		
+		BufferedImage chartImage = new BufferedImage(width, 110, 2);
+		Graphics2D g2d = chartImage.createGraphics();
+		
+		g2d.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		FontMetrics ft = g2d.getFontMetrics();
+		
+		int leftPadding = ft.stringWidth(String.valueOf(highestNumber)) + 3;
+		int spacing = (int) Math.floor(((width - leftPadding - alphabetText.length()) / (float) alphabetText.length()));
+		
+		leftPadding = (int) Math.floor((width + leftPadding - (spacing*alphabetText.length()) - alphabetText.length())/2);
+		
+		int i = 0;
+		for(char c : alphaCountMap.keySet()) {
+			int columnHeight = (int) Math.ceil(((Math.ceil(1000000/highestNumber) * alphaCountMap.get(c)) / 1000000) * 95);
+			if(alphaCountMap.get(c) > 0) columnHeight = columnHeight - 2;
+			
+			LogUtility.logInfo(Math.floor((width - leftPadding) / (float) alphabetText.length()));
+			LogUtility.logInfo("SZEROKOSC: " + getWidth() + " LEFT PADDING: " + leftPadding + " SPACING: " + spacing + " X: " + (leftPadding + ((spacing*2)*i)));
+			
+			g2d.setColor(new Color(186, 74, 54));
+			g2d.fillRect(leftPadding + (spacing*i) + i, 100-columnHeight-2, spacing, columnHeight+2);
+			
+			g2d.setColor(new Color(180,180,180));
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			g2d.drawString(String.valueOf(c), leftPadding + 1 + (spacing*i) + i + (((spacing) - ft.stringWidth(String.valueOf(c))) / 2), 110);
+			i++;
+			
+		}
+		
+		LogUtility.logInfo(highestNumber);
+		g2d.setColor(new Color(80,80,80));
+		g2d.fillRect(0, 100, width, 1);
+		
+		int limitOfLines = (int) Math.ceil(highestNumber/2);
+		if(limitOfLines > 8) limitOfLines = 8;
+		else if(limitOfLines == 0) limitOfLines = 1;
+		for(int x = 1; x < limitOfLines + 1; x++) {
+			g2d.setColor(new Color(80,80,80));
+			g2d.fillRect(leftPadding , (int) (Math.ceil(Math.floor(100 / limitOfLines) * x) - ((Math.ceil(Math.floor(100 / limitOfLines) * 1))) + 5), width, 1);
+			
+			g2d.setColor(new Color(180,180,180));
+			String barValue = String.valueOf((int) Math.round(((highestNumber/limitOfLines) * (limitOfLines))) - Math.round(((highestNumber/limitOfLines) * (x-1))));
+			g2d.drawString(barValue, leftPadding - ft.stringWidth(barValue) - 3, (int) (Math.ceil(Math.floor(100 / limitOfLines) * x) - ((Math.ceil(Math.floor(100 / limitOfLines) * 1))) + 5 + (ft.getHeight()/2)));
+		}
+		
+		g2d.dispose();
+		return chartImage;
 	}
 	
 	@Override
@@ -165,6 +226,7 @@ public class CIP_ROT13 extends CipherObject {
 			
 			stbuilder.append(alpha.charAt(index));
 		}
+		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
 		return stbuilder.toString();
 	}
 	
@@ -189,6 +251,7 @@ public class CIP_ROT13 extends CipherObject {
 			
 			stbuilder.append(alpha.charAt(index));
 		}
+		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
 		return stbuilder.toString();
 	}
 

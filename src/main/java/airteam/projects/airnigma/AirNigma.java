@@ -32,8 +32,9 @@ public class AirNigma extends JFrame {
 	private static AirNigma AirNigma;
 	
 	public AirNigma() {
-		setIconImage((BufferedImage) GraphicsUtility.getInternalIcon("icons/app-icon.png"));
+		AirNigma = this;
 		
+		setIconImage((BufferedImage) GraphicsUtility.getInternalIcon("icons/app-icon.png"));
 		JPanel backPanel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -55,7 +56,6 @@ public class AirNigma extends JFrame {
 		setBounds(100, 100, 1280, 720);
 		setTitle("AIRNIGMA - AIRTEAM");
 		
-		
 		backPanel.add(new MiddleBarPanel(), "2, 1, fill, fill");
 		backPanel.add(new InputPanel(), "1, 1, fill, fill");
 		backPanel.add(new OutputPanel(), "3, 1, fill, fill");
@@ -63,7 +63,6 @@ public class AirNigma extends JFrame {
 		getContentPane().add(backPanel);
 		
 		CipherManager.registerAllCiphers();
-		
 		setVisible(true);
 	}
 	

@@ -95,7 +95,6 @@ public class MiddleBarPanel extends JPanel{
       @Override
       public void actionPerformed(ActionEvent e) {
       	if(CipherManager.getSelectedMode() == CIPHER_MODE.DECODE) {
-      		CipherManager.selectCipherMode(CIPHER_MODE.ENCODE);
       		buttonMode.setBackground(new Color(181, 93, 34));
       		buttonMode.setIcon(lockIcon);
       		buttonMode.setText("TRYB: SZYFROWANIE");
@@ -106,9 +105,10 @@ public class MiddleBarPanel extends JPanel{
       		InputPanel.updateInputText(OutputPanel.getOutputText());
       		OutputPanel.setTitleAndHintText("ZASZYFROWANY TEKST", "Zaszyfrowany tekst...");
       		OutputPanel.updateOutputText(inputText);
+      		CipherManager.selectCipherMode(CIPHER_MODE.ENCODE);
+      		repaint();
       	}
       	else {
-      		CipherManager.selectCipherMode(CIPHER_MODE.DECODE);
       		buttonMode.setBackground(new Color(23, 105, 156));
       		buttonMode.setIcon(unlockIcon);
       		buttonMode.setText("TRYB: ODSZYFROWANIE");
@@ -119,6 +119,8 @@ public class MiddleBarPanel extends JPanel{
       		InputPanel.updateInputText(OutputPanel.getOutputText());
       		OutputPanel.setTitleAndHintText("ODSZYFROWANY TEKST", "Odszyfrowany tekst...");
       		OutputPanel.updateOutputText(inputText);
+      		CipherManager.selectCipherMode(CIPHER_MODE.DECODE);
+      		repaint();
       	}
       }
     });
