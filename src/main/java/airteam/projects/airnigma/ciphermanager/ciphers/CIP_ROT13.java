@@ -1,10 +1,15 @@
 package airteam.projects.airnigma.ciphermanager.ciphers;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +23,10 @@ import com.jgoodies.forms.layout.RowSpec;
 import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.ciphermanager.CipherManager.CIPHER_MODE;
 import airteam.projects.airnigma.components.InputPanel;
+import airteam.projects.airnigma.components.OutputPanel;
+import airteam.projects.airnigma.components.templates.CustomButtonUI;
 import airteam.projects.airnigma.components.templates.CustomTextField;
+import airteam.projects.airnigma.utilities.GraphicsUtility;
 import airteam.projects.airnigma.utilities.LogUtility;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTextField;
@@ -26,6 +34,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.JSpinner;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class CIP_ROT13 extends CipherObject {
@@ -39,6 +48,38 @@ public class CIP_ROT13 extends CipherObject {
 	
 	private int displacement = 13; 
 	
+	//Map of letter frequency in english alphabet.
+	@SuppressWarnings("serial")
+	HashMap<Character, Double> englishLetterFrequency = new HashMap<Character, Double>()
+	{{
+     put('e', 12.7);
+     put('t', 9.06);
+     put('a', 8.17);
+     put('o', 7.51);
+     put('i', 6.97);
+     put('n', 6.75);
+     put('s', 6.33);
+     put('h', 6.89);
+     put('r', 5.99);
+     put('d', 4.25);
+     put('l', 4.03);
+     put('c', 2.78);
+     put('u', 2.76);
+     put('m', 2.41);
+     put('w', 2.36);
+     put('f', 2.23);
+     put('g', 2.02);
+     put('y', 1.97);
+     put('p', 1.93);
+     put('b', 1.29);
+     put('v', 0.98);
+     put('k', 0.77);
+     put('j', 0.15);
+     put('x', 0.15);
+     put('q', 0.10);
+     put('z', 0.07);
+	}};
+	
 	
 	public CIP_ROT13() {
 		setOpaque(false);
@@ -48,8 +89,8 @@ public class CIP_ROT13 extends CipherObject {
 				RowSpec.decode("45px"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("45px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("125px"),
+				RowSpec.decode("bottom:24px"),
+				RowSpec.decode("115px"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("35px"),}));
 	}
@@ -58,7 +99,7 @@ public class CIP_ROT13 extends CipherObject {
 	public void showOptions() {
 		removeAll();
 		
-		CustomTextField displacementField = new CustomTextField("PRZESKOK LITER");
+		CustomTextField displacementField = new CustomTextField("PRZESKOK LITER (KLUCZ)");
 		displacementField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		displacementField.setLineColor(new Color(150,150,150), new Color(250,250,250));
 		displacementField.setForeground(new Color(250,250,250));
@@ -135,9 +176,71 @@ public class CIP_ROT13 extends CipherObject {
 		
 		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
 		
+		JLabel cipherCharTitle = new JLabel("ANALIZA STATYCZNA LITER");
+		cipherCharTitle.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		cipherCharTitle.setForeground(new Color(150,150,150));
+		
+		add(cipherCharTitle, "1, 4, left bottom");
 		add(displacementField, "1, 1, fill, fill");
 		add(alphabetField, "1, 3, fill, fill");
 		add(cipherChart, "1, 5, center, center");
+		
+		if(CipherManager.getSelectedMode() == CIPHER_MODE.DECODE) {
+			JButton buttonFindKey = new JButton("ZNAJDŹ MOŻLIWY KLUCZ");
+			buttonFindKey.setIconTextGap(4);
+			buttonFindKey.setIcon(new ImageIcon(GraphicsUtility.getSizedImage(GraphicsUtility.getInternalIcon("icons/lock-icon.png"), 18, 18)));
+			buttonFindKey.setUI(new CustomButtonUI());
+			buttonFindKey.setForeground(new Color(22,22,22));
+			buttonFindKey.setFont(new Font("Tahoma", Font.BOLD, 14));
+			buttonFindKey.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			buttonFindKey.setBackground(new Color(250,250,250));
+			buttonFindKey.addActionListener(new ActionListener() {
+	      @Override
+	      public void actionPerformed(ActionEvent e) {
+	      	displacementField.setText(String.valueOf(getPossibleDisplacementKey(InputPanel.getInputText())));
+	      }
+	    });
+	    
+			buttonFindKey.addMouseListener(new MouseAdapter() {
+				@Override
+	      public void mouseEntered(MouseEvent me) {
+					buttonFindKey.setBackground(new Color(200,200,200));
+			  }
+
+			  @Override
+			  public void mouseExited(MouseEvent me) {
+			  	buttonFindKey.setBackground(new Color(250,250,250));
+			  }
+	    });
+			
+			add(buttonFindKey, "1, 7, fill, fill");
+		}
+	}
+	
+	public int getPossibleDisplacementKey(String text) {
+		if(text.length() == 0) return 0;
+		double lowestDifference = Double.POSITIVE_INFINITY;
+		int possibleKey = 0;
+		
+		for(int k = 1; k <= englishLetterFrequency.size(); k++) {
+			String newDecodedText = decode(text.toLowerCase(), k, "abcdefghijklmnopqrstuvwxyz");
+			double newDifference = getDifferenceFromAlpha(newDecodedText);
+			
+			if(newDifference < lowestDifference) {
+				lowestDifference = newDifference;
+				possibleKey = k;
+			}
+		}
+		return possibleKey;
+	}
+	
+	public double getDifferenceFromAlpha(String text) {
+		double sum = 0;
+		for(char c : englishLetterFrequency.keySet()) {
+			int count = text.length() - text.replace(String.valueOf(c), "").length();
+			sum = sum + Math.abs( count * 100 / text.length() - englishLetterFrequency.get(c));
+		}
+		return (sum / englishLetterFrequency.size());
 	}
 	
 	public BufferedImage renderCipherChar() {
@@ -252,6 +355,24 @@ public class CIP_ROT13 extends CipherObject {
 			stbuilder.append(alpha.charAt(index));
 		}
 		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
+		return stbuilder.toString();
+	}
+	
+	public String decode(String text, int displacement, String alpha) {
+		StringBuilder stbuilder = new StringBuilder();
+		for(int i = 0; i < text.length(); i++) {	
+			char ch = text.charAt(i);
+			
+			int index = alpha.indexOf(ch);
+			if(index < 0) {
+				stbuilder.append(ch);
+				continue;
+			}
+			index = index - displacement;
+			if(index < 0) index = index + alpha.length();
+			
+			stbuilder.append(alpha.charAt(index));
+		}
 		return stbuilder.toString();
 	}
 

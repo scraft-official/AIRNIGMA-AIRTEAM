@@ -47,9 +47,7 @@ public class OptionsPanel extends JPanel {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("fill:default:grow"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("fill:50px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("50px"),}));
+				RowSpec.decode("10px"),}));
 		
 		combobox.setTitleText("WYBRANY SZYFR");
     combobox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
