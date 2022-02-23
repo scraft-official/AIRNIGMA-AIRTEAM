@@ -38,7 +38,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class CIP_ROT13 extends CipherObject {
-	private String cipherName = "ROT13 (Szyfr Cezara)";
+	private String cipherName = "SZYFR CEZARA (ROT 13)";
 	
 	private String alphabetText = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private String lowcaseAlphabet = alphabetText.toLowerCase();

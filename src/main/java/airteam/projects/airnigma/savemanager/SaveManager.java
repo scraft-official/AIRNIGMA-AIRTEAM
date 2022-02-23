@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
+import airteam.projects.airnigma.AirNigma;
 import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.components.InputPanel;
 import airteam.projects.airnigma.components.dialogs.popups.ErrorPopup;
@@ -24,7 +25,7 @@ public class SaveManager {
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.setDialogTitle("IMPORTUJ PLIK");
 		
-    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+    if (fileChooser.showOpenDialog(AirNigma.getFrame()) == JFileChooser.APPROVE_OPTION) {
         File file = fileChooser.getSelectedFile();
         if (file == null) return null;
         
@@ -53,9 +54,10 @@ public class SaveManager {
 	public static boolean exportTextFile(String fileName, String fileContent) {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("AIRNIGMA - IMPORTUJ PLIK TEKSTOWY");
 		
 		String path = null;
-    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+    if (fileChooser.showOpenDialog(AirNigma.getFrame()) == JFileChooser.APPROVE_OPTION) {
         File file = fileChooser.getSelectedFile();
         if (file == null) return false;
         

@@ -42,9 +42,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class CIP_VERNAM extends CipherObject {
-	private String cipherName = "VERNAM (One-Time-Pad)";
+	private String cipherName = "SZYFR VERNAMA (One-Time-Pad)";
 	
-	private String keyText = "PutPasswordKeyHere";
+	private String keyText = "WprowadzTrudneHasloTutaj";
 	
 	private String alphabetText = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private String lowcaseAlphabet = alphabetText.toLowerCase();
