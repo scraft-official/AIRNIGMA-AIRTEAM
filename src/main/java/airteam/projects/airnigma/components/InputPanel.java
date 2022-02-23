@@ -27,6 +27,7 @@ import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.components.templates.CustomButtonUI;
 import airteam.projects.airnigma.components.templates.CustomTextArea;
 import airteam.projects.airnigma.components.templates.JScrollBarUI;
+import airteam.projects.airnigma.savemanager.SaveManager;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 import airteam.projects.airnigma.utilities.LogUtility;
 
@@ -107,7 +108,7 @@ public class InputPanel extends JPanel{
 		buttonImport.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        
+      	SaveManager.importText();
       }
     });
     

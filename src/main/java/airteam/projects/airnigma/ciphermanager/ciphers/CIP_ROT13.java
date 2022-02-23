@@ -188,7 +188,7 @@ public class CIP_ROT13 extends CipherObject {
 		if(CipherManager.getSelectedMode() == CIPHER_MODE.DECODE) {
 			JButton buttonFindKey = new JButton("ZNAJDŹ MOŻLIWY KLUCZ");
 			buttonFindKey.setIconTextGap(4);
-			buttonFindKey.setIcon(new ImageIcon(GraphicsUtility.getSizedImage(GraphicsUtility.getInternalIcon("icons/lock-icon.png"), 18, 18)));
+			buttonFindKey.setIcon(new ImageIcon(GraphicsUtility.getSizedImage(GraphicsUtility.getInternalIcon("icons/magnifier-icon.png"), 15, 15)));
 			buttonFindKey.setUI(new CustomButtonUI());
 			buttonFindKey.setForeground(new Color(22,22,22));
 			buttonFindKey.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -248,7 +248,7 @@ public class CIP_ROT13 extends CipherObject {
 		HashMap<Character, Integer> alphaCountMap = new HashMap<>();
 		
 		int width = getWidth();
-		if(getWidth() == 0) width = 230;
+		if(getWidth() == 0) width = 242;
 		
 		int highestNumber = 1;
 		for(char c : upcaseAlphabet.toCharArray()) {
@@ -274,9 +274,6 @@ public class CIP_ROT13 extends CipherObject {
 			int columnHeight = (int) Math.ceil(((Math.ceil(1000000/highestNumber) * alphaCountMap.get(c)) / 1000000) * 95);
 			if(alphaCountMap.get(c) > 0) columnHeight = columnHeight - 2;
 			
-			LogUtility.logInfo(Math.floor((width - leftPadding) / (float) alphabetText.length()));
-			LogUtility.logInfo("SZEROKOSC: " + getWidth() + " LEFT PADDING: " + leftPadding + " SPACING: " + spacing + " X: " + (leftPadding + ((spacing*2)*i)));
-			
 			g2d.setColor(new Color(186, 74, 54));
 			g2d.fillRect(leftPadding + (spacing*i) + i, 100-columnHeight-2, spacing, columnHeight+2);
 			
@@ -288,7 +285,6 @@ public class CIP_ROT13 extends CipherObject {
 			
 		}
 		
-		LogUtility.logInfo(highestNumber);
 		g2d.setColor(new Color(80,80,80));
 		g2d.fillRect(0, 100, width, 1);
 		
