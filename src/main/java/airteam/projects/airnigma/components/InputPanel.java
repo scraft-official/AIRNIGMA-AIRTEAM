@@ -108,7 +108,11 @@ public class InputPanel extends JPanel{
 		buttonImport.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-      	SaveManager.importText();
+      	String fileContent = SaveManager.importTextFile(".txt");
+      	if(fileContent != null) {
+	      	InputPanel.updateInputText(fileContent);
+	    	  CipherManager.updateOutput();
+      	}
       }
     });
     

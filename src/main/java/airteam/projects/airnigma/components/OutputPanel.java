@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -24,9 +25,11 @@ import javax.swing.event.DocumentListener;
 
 import airteam.projects.airnigma.AirNigma;
 import airteam.projects.airnigma.ciphermanager.CipherManager;
+import airteam.projects.airnigma.ciphermanager.CipherManager.CIPHER_MODE;
 import airteam.projects.airnigma.components.templates.CustomButtonUI;
 import airteam.projects.airnigma.components.templates.CustomTextArea;
 import airteam.projects.airnigma.components.templates.JScrollBarUI;
+import airteam.projects.airnigma.savemanager.SaveManager;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 import airteam.projects.airnigma.utilities.LogUtility;
 
@@ -110,7 +113,13 @@ public class OutputPanel extends JPanel {
 		buttonExport.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        
+      	SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM hh-mm-ss");
+      	String fileName = null;
+      	if(CipherManager.getSelectedMode() == CIPHER_MODE.DECODE) {
+      		fileName = "AirNigma - ODSZYFROWANY TEKST - ";
+      	} else fileName = "AirNigma - ZASZYFROWANY TEKST - ";
+      	
+       	SaveManager.exportTextFile((fileName + dateFormat.format(System.currentTimeMillis()) + ".txt"), OutputPanel.getOutputText());
       }
     });
     

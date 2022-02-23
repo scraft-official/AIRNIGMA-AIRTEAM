@@ -84,7 +84,7 @@ public class CIP_ROT13 extends CipherObject {
 	public CIP_ROT13() {
 		setOpaque(false);
 		setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("default:grow"),},
+				ColumnSpec.decode("min(234px;default):grow"),},
 			new RowSpec[] {
 				RowSpec.decode("45px"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
@@ -124,7 +124,6 @@ public class CIP_ROT13 extends CipherObject {
 		  		displacement = value;
 		  		displacementField.showRequiredHint(false);
 		  		CipherManager.updateOutput();
-		  		CipherManager.updateInput();
 		  	} catch(Exception e) {
 		  		displacementField.showRequiredHint(true);
 		  	}
@@ -151,7 +150,7 @@ public class CIP_ROT13 extends CipherObject {
 		  public void updateAlphabet() {
 		  	String text = alphabetField.getText().replaceFirst(" ","");
 		  	if(text.length() == 0) {
-		  		alphabetField.setRquiredHint("Wprowadz alfabet!");;
+		  		alphabetField.setRquiredHint("Wprowadź alfabet!");;
 		  		alphabetField.showRequiredHint(true);
 		  		return;
 		  	}
@@ -163,14 +162,13 @@ public class CIP_ROT13 extends CipherObject {
 		  	
 		  	try {
 		  		int value = Integer.valueOf(displacementField.getText());
-		  		if(value >= alphabetText.length()) value = (value - ((value / alphabetText.length()) * alphabetText.length()));
+		  		if(value >= alphabetText.length()) value = Math.floorMod(value, alphabetText.length());
 		  		displacement = value; 
-		  	} catch(Exception e) { displacement = (displacement - ((displacement / alphabetText.length()) * alphabetText.length())); }
+		  	} catch(Exception e) { displacement = Math.floorMod(displacement, alphabetText.length()); }
 		  	
 		  	alphabetField.showRequiredHint(false);
 		  	
 		  	CipherManager.updateOutput();
-	  		CipherManager.updateInput();
 		  }
 		});
 		

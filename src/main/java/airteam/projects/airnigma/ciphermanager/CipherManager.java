@@ -34,7 +34,7 @@ public class CipherManager {
 			} catch (Exception e) { LogUtility.logError("Wystapil problem z rejestracja obiektu szyfru!"); }
 		}
 		
-		selectCipher(0);
+		selectCipher(registeredCipheres.size()-1);
 		OptionsPanel.refreshSelected();
 	}
 	
@@ -49,17 +49,19 @@ public class CipherManager {
 	}
 	
 	public static void selectCipher(int id) {
-		selectedCipher = registeredCipheres.get(registeredCipheres.size()-1);
-		OptionsPanel.setCipherOptionsPanel(selectedCipher);
+		selectedCipher = registeredCipheres.get(id);
 		selectedCipher.showOptions();
+		OptionsPanel.setCipherOptionsPanel(selectedCipher);
+		updateOutput();
 	}
 	
 	public static void selectCipher(CipherObject cipher) {
 		for(CipherObject c : registeredCipheres) {
 			if(c == cipher) selectedCipher = cipher;
 		}
-		if(AirNigma.getFrame().isVisible()) selectedCipher.showOptions();
+		selectedCipher.showOptions();
 		OptionsPanel.setCipherOptionsPanel(selectedCipher);
+		updateOutput();
 	}
 	
 	public static ArrayList<CipherObject> getAllCiphers() {
