@@ -31,7 +31,7 @@ public class CipherManager {
 				CipherObject cipher = c.getConstructor().newInstance();
 				registeredCipheres.add(cipher);
 				LogUtility.logInfo(cipher.getCipherName());
-			} catch (Exception e) { LogUtility.logError("Wystapil problem z rejestracja obiektu szyfru!"); }
+			} catch (Exception e) { e.printStackTrace(); LogUtility.logError("Wystapil problem z rejestracja obiektu szyfru!"); }
 		}
 		
 		selectCipher(registeredCipheres.size()-1);

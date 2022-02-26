@@ -51,7 +51,7 @@ public class OptionsPanel extends JPanel {
 		
 		combobox.setTitleText("WYBRANY SZYFR");
     combobox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-    combobox.setMaximumRowCount(4);
+    combobox.setMaximumRowCount(10);
     combobox.addPopupMenuListener(new PopupMenuListener() {
       @Override
       public void popupMenuCanceled(PopupMenuEvent pme) {

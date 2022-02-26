@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.ciphermanager.CipherManager.CIPHER_MODE;
-import airteam.projects.airnigma.components.templates.CustomButtonUI;
+import airteam.projects.airnigma.components.templates.CustomButton.CustomButtonUI;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 import airteam.projects.airnigma.utilities.LogUtility;
 import com.jgoodies.forms.layout.FormLayout;
@@ -66,10 +66,10 @@ public class MiddleBarPanel extends JPanel{
 		separator.setForeground(Color.WHITE);
 		add(separator, "4, 3, fill, default");
 		
-		JLabel lblUstawienia = new JLabel("• USTAWIENIA •");
-		lblUstawienia.setForeground(new Color(250, 250, 250));
-		lblUstawienia.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		add(lblUstawienia, "4, 4");
+		JLabel ustawienia = new JLabel("• USTAWIENIA •");
+		ustawienia.setForeground(new Color(250, 250, 250));
+		ustawienia.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		add(ustawienia, "4, 4");
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(Color.WHITE);

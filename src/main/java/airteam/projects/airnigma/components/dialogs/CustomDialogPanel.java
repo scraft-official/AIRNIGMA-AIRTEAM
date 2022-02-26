@@ -18,7 +18,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
-import airteam.projects.airnigma.components.templates.CustomButtonUI;
+import airteam.projects.airnigma.components.templates.CustomButton.CustomButtonUI;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 import com.jgoodies.forms.layout.FormSpecs;

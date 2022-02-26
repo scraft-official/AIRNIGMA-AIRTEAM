@@ -24,7 +24,7 @@ import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.ciphermanager.CipherManager.CIPHER_MODE;
 import airteam.projects.airnigma.components.InputPanel;
 import airteam.projects.airnigma.components.OutputPanel;
-import airteam.projects.airnigma.components.templates.CustomButtonUI;
+import airteam.projects.airnigma.components.templates.CustomButton;
 import airteam.projects.airnigma.components.templates.CustomTextField;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 import airteam.projects.airnigma.utilities.LogUtility;
@@ -184,32 +184,14 @@ public class CIP_ROT13 extends CipherObject {
 		add(cipherChart, "1, 5, center, center");
 		
 		if(CipherManager.getSelectedMode() == CIPHER_MODE.DECODE) {
-			JButton buttonFindKey = new JButton("ZNAJDŹ MOŻLIWY KLUCZ");
-			buttonFindKey.setIconTextGap(4);
-			buttonFindKey.setIcon(new ImageIcon(GraphicsUtility.getSizedImage(GraphicsUtility.getInternalIcon("icons/magnifier-icon.png"), 15, 15)));
-			buttonFindKey.setUI(new CustomButtonUI());
-			buttonFindKey.setForeground(new Color(22,22,22));
-			buttonFindKey.setFont(new Font("Tahoma", Font.BOLD, 14));
-			buttonFindKey.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			buttonFindKey.setBackground(new Color(250,250,250));
+			JButton buttonFindKey = new CustomButton("ZNAJDŹ MOŻLIWY KLUCZ", new Color(250,250,250), new ImageIcon(GraphicsUtility.getSizedImage(GraphicsUtility.getInternalIcon("icons/magnifier-icon.png"), 15, 15)));
 			buttonFindKey.addActionListener(new ActionListener() {
 	      @Override
 	      public void actionPerformed(ActionEvent e) {
 	      	displacementField.setText(String.valueOf(getPossibleDisplacementKey(InputPanel.getInputText())));
 	      }
 	    });
-	    
-			buttonFindKey.addMouseListener(new MouseAdapter() {
-				@Override
-	      public void mouseEntered(MouseEvent me) {
-					buttonFindKey.setBackground(new Color(200,200,200));
-			  }
-
-			  @Override
-			  public void mouseExited(MouseEvent me) {
-			  	buttonFindKey.setBackground(new Color(250,250,250));
-			  }
-	    });
+			buttonFindKey.setForeground(new Color(22,22,22));
 			
 			add(buttonFindKey, "1, 7, fill, fill");
 		}

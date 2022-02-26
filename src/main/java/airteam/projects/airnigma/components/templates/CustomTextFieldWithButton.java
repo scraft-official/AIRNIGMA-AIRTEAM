@@ -46,7 +46,7 @@ public class CustomTextFieldWithButton extends JPanel {
 		importButton = new JButton();
 		importButton.setIconTextGap(4);
 		importButton.setIcon(buttonIcon);
-		importButton.setUI(new CustomButtonUI());
+		importButton.setUI(new CustomButton.CustomButtonUI());
 		importButton.setForeground(new Color(22,22,22));
 		importButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		importButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

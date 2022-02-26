@@ -36,15 +36,15 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class CIP_AES extends CipherObject {
-	private String cipherName = "SZYFR AES";
+public class CIP_TWOFISH extends CipherObject {
+	private String cipherName = "SZYFR TWOFISH";
 	
-	private CIP_AES instance = this;
+	private CIP_TWOFISH instance = this;
 	
 	private int cipherBlockSize = 256;
-	private SecretKey cipherSecretKey = EncryptionUtility.generateKey(cipherBlockSize, "AES");
+	private SecretKey cipherSecretKey = EncryptionUtility.generateKey(cipherBlockSize, "TwoFish", "BC");
 	
-	public CIP_AES() {
+	public CIP_TWOFISH() {
 		setOpaque(false);
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("min(234px;default):grow"),},
@@ -80,7 +80,7 @@ public class CIP_AES extends CipherObject {
 		  	}
 		  	
 		  	try {
-	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(text, "AES");
+	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(text, "TwoFish");
 		  	} catch(Exception er) {
 		  		fieldCipherKey.getTextField().setRquiredHint("Błedny klucz!");
 		  		fieldCipherKey.getTextField().showRequiredHint(true);
@@ -97,12 +97,12 @@ public class CIP_AES extends CipherObject {
       public void actionPerformed(ActionEvent e) {
       	String fileContent = SaveManager.importTextFile(".txt");
       	try {
-	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(fileContent, "AES");
+	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(fileContent, "TwoFish");
 	      	if(fileContent != null) {
 	      		fieldCipherKey.getTextField().setText(fileContent);
 	      	}
       	} catch(Exception er) {
-      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"AES\".");
+      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"TwoFish\".");
       	}
       }
     });
@@ -133,7 +133,7 @@ public class CIP_AES extends CipherObject {
 	      public void actionPerformed(ActionEvent e) {
 	      	new SelectBlockSizePopup(instance);
 	      	
-	      	SecretKey key = EncryptionUtility.generateKey(cipherBlockSize, "AES");
+	      	SecretKey key = EncryptionUtility.generateKey(cipherBlockSize, "TwoFish");
 	      	String keyText = EncryptionUtility.convertSecretKeyToString(key);
 	      	
 	      	SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM hh-mm-ss");
@@ -153,7 +153,7 @@ public class CIP_AES extends CipherObject {
 	public String encode(String text) {
 		if(text.length() == 0) return null;
 		try {
-			return EncryptionUtility.encode("AES/ECB/PKCS5Padding", text, cipherSecretKey);
+			return EncryptionUtility.encode("Twofish/ECB/PKCS5Padding", text, cipherSecretKey);
 		} catch (Exception e) {
 			return "Nie można zakodować szyfru! Upewnij się, że wprowadzono odpowiedni klucz!";
 		}
@@ -163,7 +163,7 @@ public class CIP_AES extends CipherObject {
 	public String decode(String text) {
 		if(text.length() == 0) return null;
 		try {
-			return EncryptionUtility.decode("AES/ECB/PKCS5Padding", text, cipherSecretKey);
+			return EncryptionUtility.decode("Twofish/ECB/PKCS5Padding", text, cipherSecretKey);
 		} catch (Exception e) {
 			return "Nie można odczytać szyfru! Upewnij się, że wprowadzono odpowiedni klucz!";
 		}

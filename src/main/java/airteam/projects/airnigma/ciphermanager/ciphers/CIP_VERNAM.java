@@ -26,7 +26,7 @@ import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.ciphermanager.CipherManager.CIPHER_MODE;
 import airteam.projects.airnigma.components.InputPanel;
 import airteam.projects.airnigma.components.OutputPanel;
-import airteam.projects.airnigma.components.templates.CustomButtonUI;
+import airteam.projects.airnigma.components.templates.CustomButton.CustomButtonUI;
 import airteam.projects.airnigma.components.templates.CustomTextField;
 import airteam.projects.airnigma.components.templates.CustomTextFieldWithButton;
 import airteam.projects.airnigma.savemanager.SaveManager;

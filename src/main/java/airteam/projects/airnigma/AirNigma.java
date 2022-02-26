@@ -9,12 +9,15 @@ import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.security.Security;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -61,6 +64,8 @@ public class AirNigma extends JFrame {
 		backPanel.add(new OutputPanel(), "3, 1, fill, fill");
 		
 		getContentPane().add(backPanel);
+		
+		Security.addProvider(new BouncyCastleProvider());
 		
 		CipherManager.registerAllCiphers();
 		setVisible(true);

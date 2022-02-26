@@ -36,15 +36,12 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class CIP_AES extends CipherObject {
-	private String cipherName = "SZYFR AES";
+public class CIP_DES extends CipherObject {
+	private String cipherName = "SZYFR DES";
 	
-	private CIP_AES instance = this;
+	private SecretKey cipherSecretKey = EncryptionUtility.generateKey(56, "DES");
 	
-	private int cipherBlockSize = 256;
-	private SecretKey cipherSecretKey = EncryptionUtility.generateKey(cipherBlockSize, "AES");
-	
-	public CIP_AES() {
+	public CIP_DES() {
 		setOpaque(false);
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("min(234px;default):grow"),},
@@ -54,10 +51,6 @@ public class CIP_AES extends CipherObject {
 				RowSpec.decode("35px"),
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("fill:35px"),}));
-	}
-	
-	public void setCipherBlockSize(int size) {
-		cipherBlockSize = size;
 	}
 	
 	@Override
@@ -80,7 +73,7 @@ public class CIP_AES extends CipherObject {
 		  	}
 		  	
 		  	try {
-	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(text, "AES");
+	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(text, "DES");
 		  	} catch(Exception er) {
 		  		fieldCipherKey.getTextField().setRquiredHint("Błedny klucz!");
 		  		fieldCipherKey.getTextField().showRequiredHint(true);
@@ -97,12 +90,12 @@ public class CIP_AES extends CipherObject {
       public void actionPerformed(ActionEvent e) {
       	String fileContent = SaveManager.importTextFile(".txt");
       	try {
-	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(fileContent, "AES");
+	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(fileContent, "DES");
 	      	if(fileContent != null) {
 	      		fieldCipherKey.getTextField().setText(fileContent);
 	      	}
       	} catch(Exception er) {
-      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"AES\".");
+      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"DES\".");
       	}
       }
     });
@@ -131,9 +124,8 @@ public class CIP_AES extends CipherObject {
 			buttonGenKey.addActionListener(new ActionListener() {
 	      @Override
 	      public void actionPerformed(ActionEvent e) {
-	      	new SelectBlockSizePopup(instance);
-	      	
-	      	SecretKey key = EncryptionUtility.generateKey(cipherBlockSize, "AES");
+
+	      	SecretKey key = EncryptionUtility.generateKey(56, "DES");
 	      	String keyText = EncryptionUtility.convertSecretKeyToString(key);
 	      	
 	      	SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM hh-mm-ss");
@@ -153,7 +145,7 @@ public class CIP_AES extends CipherObject {
 	public String encode(String text) {
 		if(text.length() == 0) return null;
 		try {
-			return EncryptionUtility.encode("AES/ECB/PKCS5Padding", text, cipherSecretKey);
+			return EncryptionUtility.encode("DES", text, cipherSecretKey);
 		} catch (Exception e) {
 			return "Nie można zakodować szyfru! Upewnij się, że wprowadzono odpowiedni klucz!";
 		}
@@ -163,7 +155,7 @@ public class CIP_AES extends CipherObject {
 	public String decode(String text) {
 		if(text.length() == 0) return null;
 		try {
-			return EncryptionUtility.decode("AES/ECB/PKCS5Padding", text, cipherSecretKey);
+			return EncryptionUtility.decode("DES", text, cipherSecretKey);
 		} catch (Exception e) {
 			return "Nie można odczytać szyfru! Upewnij się, że wprowadzono odpowiedni klucz!";
 		}

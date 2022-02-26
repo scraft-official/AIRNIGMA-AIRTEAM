@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -81,6 +82,41 @@ public class SaveManager {
 			return false;
 		}
 		new InfoPopup("POMYŚLENIE ZAPISANO PLIK!\n(" + fileName +")");
+		return true;
+	}
+	
+	public static boolean exportTextFiles(HashMap<String, String> filesDataMap) {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("AIRNIGMA - IMPORTUJ PLIK TEKSTOWY");
+		
+		String path = null;
+    if (fileChooser.showOpenDialog(AirNigma.getFrame()) == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        if (file == null) return false;
+        
+        path = fileChooser.getSelectedFile().getAbsolutePath();
+    } else return false;
+    
+    for(String fileName : filesDataMap.keySet()) {
+			String filePath = (path + "\\" + fileName);
+			
+			File file = new File(filePath);
+			try {
+				file.createNewFile();
+			} catch (Exception e) {
+				new ErrorPopup("NIE MOŻNA ZAPISAĆ PLIKU W PODANEJ LOKALIZACJI!");
+				return false;
+			}
+			
+			try (PrintWriter fileWriter = new PrintWriter(filePath)) {
+				fileWriter.print(filesDataMap.get(fileName));
+			} catch (Exception e) {
+				new ErrorPopup("WYSTĄPIŁ PROBLEM Z ZAPISYWANIEM PLIKU!" );
+				return false;
+			}
+    }
+		new InfoPopup("POMYŚLENIE ZAPISANO PLIKI!\n(" + String.join("\n", filesDataMap.keySet()) +")");
 		return true;
 	}
 }

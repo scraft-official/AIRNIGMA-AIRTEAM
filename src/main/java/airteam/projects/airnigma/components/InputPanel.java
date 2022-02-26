@@ -24,7 +24,7 @@ import javax.swing.event.DocumentListener;
 
 import airteam.projects.airnigma.AirNigma;
 import airteam.projects.airnigma.ciphermanager.CipherManager;
-import airteam.projects.airnigma.components.templates.CustomButtonUI;
+import airteam.projects.airnigma.components.templates.CustomButton.CustomButtonUI;
 import airteam.projects.airnigma.components.templates.CustomTextArea;
 import airteam.projects.airnigma.components.templates.JScrollBarUI;
 import airteam.projects.airnigma.savemanager.SaveManager;
