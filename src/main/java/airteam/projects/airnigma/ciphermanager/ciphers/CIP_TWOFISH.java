@@ -96,13 +96,15 @@ public class CIP_TWOFISH extends CipherObject {
       @Override
       public void actionPerformed(ActionEvent e) {
       	String fileContent = SaveManager.importTextFile(".txt");
-      	try {
-	      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(fileContent, "TwoFish");
-	      	if(fileContent != null) {
-	      		fieldCipherKey.getTextField().setText(fileContent);
+      	if(fileContent != null) {
+	      	try {
+		      	cipherSecretKey = EncryptionUtility.convertStringToSecretKey(fileContent, "TwoFish");
+		      	if(fileContent != null) {
+		      		fieldCipherKey.getTextField().setText(fileContent);
+		      	}
+	      	} catch(Exception er) {
+	      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"TwoFish\".");
 	      	}
-      	} catch(Exception er) {
-      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"TwoFish\".");
       	}
       }
     });

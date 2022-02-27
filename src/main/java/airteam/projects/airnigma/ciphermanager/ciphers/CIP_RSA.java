@@ -99,13 +99,15 @@ public class CIP_RSA extends CipherObject {
       @Override
       public void actionPerformed(ActionEvent e) {
       	String fileContent = SaveManager.importTextFile(".txt");
-      	try {
-      		cipherPublicKey = EncryptionUtility.convertBytesToPublicKey(Base64.getDecoder().decode(fileContent));
-	      	if(fileContent != null) {
-	      		fieldPublicKey.getTextField().setText(fileContent);
+      	if(fileContent != null) {
+	      	try {
+	      		cipherPublicKey = EncryptionUtility.convertBytesToPublicKey(Base64.getDecoder().decode(fileContent));
+		      	if(fileContent != null) {
+		      		fieldPublicKey.getTextField().setText(fileContent);
+		      	}
+	      	} catch(Exception er) {
+	      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"RSA KLUCZ PUBLICZNY\".");
 	      	}
-      	} catch(Exception er) {
-      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"RSA KLUCZ PUBLICZNY\".");
       	}
       }
     });
@@ -142,13 +144,15 @@ public class CIP_RSA extends CipherObject {
       @Override
       public void actionPerformed(ActionEvent e) {
       	String fileContent = SaveManager.importTextFile(".txt");
-      	try {
-      		cipherPrivateKey = EncryptionUtility.convertBytesToPrivateKey(Base64.getDecoder().decode(fileContent));
-	      	if(fileContent != null) {
-	      		fieldPrivateKey.getTextField().setText(fileContent);
+      	if(fileContent != null) {
+	      	try {
+	      		cipherPrivateKey = EncryptionUtility.convertBytesToPrivateKey(Base64.getDecoder().decode(fileContent));
+		      	if(fileContent != null) {
+		      		fieldPrivateKey.getTextField().setText(fileContent);
+		      	}
+	      	} catch(Exception er) {
+	      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"RSA KLUCZ PRYWATNY\".");
 	      	}
-      	} catch(Exception er) {
-      		new ErrorPopup("Nie udało się odczytać tego klucza!\nUpewnij się, że użyto klucza do szyfru \"RSA KLUCZ PRYWATNY\".");
       	}
       }
     });
