@@ -85,7 +85,7 @@ public class SaveManager {
 		return true;
 	}
 	
-	public static boolean exportTextFiles(HashMap<String, String> filesDataMap) {
+	public static boolean exportTextFile(HashMap<String, String> filesDataMap) {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setDialogTitle("AIRNIGMA - IMPORTUJ PLIK TEKSTOWY");

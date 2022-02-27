@@ -10,6 +10,7 @@ import java.security.SecureRandom;
 import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Random;
@@ -34,7 +35,7 @@ public class EncryptionUtility {
 	
 	public static PrivateKey convertBytesToPrivateKey(byte[] bytes) throws Exception {
 		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-		EncodedKeySpec keySpec = new X509EncodedKeySpec(bytes);
+		EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(bytes);
 		return keyFactory.generatePrivate(keySpec);
 	}
 	
@@ -59,12 +60,28 @@ public class EncryptionUtility {
   	return stbuilder.toString();
 	}
 	
+	public static String encode(String algorithm, String input, PublicKey key) throws Exception {
+    Cipher cipher = Cipher.getInstance(algorithm);
+    cipher.init(Cipher.ENCRYPT_MODE, key);
+    byte[] cipherText = cipher.doFinal(input.getBytes());
+    return Base64.getEncoder()
+        .encodeToString(cipherText);
+  }
+	
 	public static String encode(String algorithm, String input, SecretKey key) throws Exception {
     Cipher cipher = Cipher.getInstance(algorithm);
     cipher.init(Cipher.ENCRYPT_MODE, key);
     byte[] cipherText = cipher.doFinal(input.getBytes());
     return Base64.getEncoder()
         .encodeToString(cipherText);
+  }
+	
+	public static String decode(String algorithm, String cipherText, PrivateKey key) throws Exception {
+    Cipher cipher = Cipher.getInstance(algorithm);
+    cipher.init(Cipher.DECRYPT_MODE, key);
+    byte[] plainText = cipher.doFinal(Base64.getDecoder()
+        .decode(cipherText));
+    return new String(plainText);
   }
 	
 	public static String decode(String algorithm, String cipherText, SecretKey key) throws Exception {

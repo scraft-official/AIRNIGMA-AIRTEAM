@@ -12,8 +12,10 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Random;
 
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.swing.ImageIcon;
@@ -41,7 +43,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
 public class CIP_RSA extends CipherObject {
-	private String cipherName = "SZYFR RSA";
+	private String cipherName = "SZYFR RSA (KEY-PAIR)";
 	
 	private KeyPair cipherKeyPair = EncryptionUtility.generateKeyPair(2048, "RSA");
 	private PublicKey cipherPublicKey = cipherKeyPair.getPublic();
@@ -124,7 +126,7 @@ public class CIP_RSA extends CipherObject {
 		  	}
 		  	
 		  	try {
-		  		cipherPrivateKey = EncryptionUtility.convertBytesToPrivateKey(Base64.getDecoder().decode(fieldPrivateKey.getTextField().getText()));
+		  		cipherPrivateKey = EncryptionUtility.convertBytesToPrivateKey((Base64.getDecoder().decode(fieldPrivateKey.getTextField().getText())));
 		  	} catch(Exception er) {
 		  		fieldPrivateKey.getTextField().setRquiredHint("Błedny klucz!");
 		  		fieldPrivateKey.getTextField().showRequiredHint(true);
@@ -162,9 +164,16 @@ public class CIP_RSA extends CipherObject {
 		buttonSaveKey.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+      	String pbKeyText = Base64.getEncoder().encodeToString(cipherPublicKey.getEncoded());
+      	String pvKeyText = Base64.getEncoder().encodeToString(cipherPrivateKey.getEncoded());
+      	
       	SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM hh-mm-ss");
-      	SaveManager.exportTextFile(("AirNigma - KLUCZ PRYWATNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), Base64.getEncoder().encodeToString(cipherPrivateKey.getEncoded()));
-      	SaveManager.exportTextFile(("AirNigma - KLUCZ PUBLICZNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), Base64.getEncoder().encodeToString(cipherPublicKey.getEncoded()));
+      
+      	HashMap<String, String> filesDataMap = new HashMap<>();
+      	filesDataMap.put(("AirNigma - KLUCZ PUBLICZNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), pbKeyText);
+      	filesDataMap.put(("AirNigma - KLUCZ PRYWATNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), pvKeyText);
+      	
+      	SaveManager.exportTextFile(filesDataMap);
       }
     });
 		
@@ -180,17 +189,21 @@ public class CIP_RSA extends CipherObject {
 
 	      	KeyPair newKeyPair = EncryptionUtility.generateKeyPair(2048, "RSA");
 	      	
+	      	String pbKeyText = Base64.getEncoder().encodeToString(newKeyPair.getPublic().getEncoded());
+	      	String pvKeyText = Base64.getEncoder().encodeToString(newKeyPair.getPrivate().getEncoded());
+	      	
 	      	SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM hh-mm-ss");
+	      
+	      	HashMap<String, String> filesDataMap = new HashMap<>();
+	      	filesDataMap.put(("AirNigma - KLUCZ PUBLICZNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), pbKeyText);
+	      	filesDataMap.put(("AirNigma - KLUCZ PRYWATNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), pvKeyText);
 	      	
-	      	HashMap
-	      	
-	      	SaveManager.exportTextFile(("AirNigma - KLUCZ PRYWATNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), Base64.getEncoder().encodeToString(newKeyPair.getPrivate().getEncoded()));
-	      	if(SaveManager.exportTextFile(("AirNigma - KLUCZ PUBLICZNY - " + dateFormat.format(System.currentTimeMillis()) + ".txt"), Base64.getEncoder().encodeToString(newKeyPair.getPublic().getEncoded()))) {
+	      	if(SaveManager.exportTextFile(filesDataMap)) {
 		      	cipherPublicKey = newKeyPair.getPublic();
 		      	cipherPrivateKey = newKeyPair.getPrivate();
 		      	
-		      	fieldPublicKey.getTextField().setText(Base64.getEncoder().encodeToString(cipherPublicKey.getEncoded()));
-		      	fieldPrivateKey.getTextField().setText(Base64.getEncoder().encodeToString(cipherPrivateKey.getEncoded()));
+		      	fieldPublicKey.getTextField().setText(pbKeyText);
+		      	fieldPrivateKey.getTextField().setText(pvKeyText);
 	      	}
 	      }
 	    });
@@ -204,9 +217,11 @@ public class CIP_RSA extends CipherObject {
 	public String encode(String text) {
 		if(text.length() == 0) return null;
 		try {
-			return null; //EncryptionUtility.encode("DES", text, );
+			return EncryptionUtility.encode("RSA", text, cipherPublicKey);
+		} catch (IllegalBlockSizeException e) {
+			return "Przekroczono maksymalną długość szyfrowanej wiadomości!";
 		} catch (Exception e) {
-			return "Nie można zakodować szyfru! Upewnij się, że wprowadzono odpowiedni klucz!";
+			return "Nie można zakodować szyfru! Upewnij się, że wprowadzono odpowiedni klucz publiczny!";
 		}
 	}
 
@@ -214,9 +229,11 @@ public class CIP_RSA extends CipherObject {
 	public String decode(String text) {
 		if(text.length() == 0) return null;
 		try {
-			return null; //EncryptionUtility.decode("DES", text);
+			return EncryptionUtility.decode("RSA", text, cipherPrivateKey);
+		} catch (IllegalBlockSizeException e) {
+			return "Przekroczono maksymalną długość szyfrowanej wiadomości!";
 		} catch (Exception e) {
-			return "Nie można odczytać szyfru! Upewnij się, że wprowadzono odpowiedni klucz!";
+			return "Nie można odczytać szyfru! Upewnij się, że wprowadzono odpowiedni klucz prywatny!";
 		}
 	}
 
