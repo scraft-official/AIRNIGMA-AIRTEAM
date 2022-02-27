@@ -12,8 +12,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 <properties>
   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  <maven.compiler.source>1.11</maven.compiler.source>
-  <maven.compiler.target>1.11</maven.compiler.target>
+  <maven.compiler.source>1.8</maven.compiler.source>
+  <maven.compiler.target>1.8</maven.compiler.target>
 </properties>
 
 <dependencies>
@@ -90,8 +90,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <artifactId>maven-compiler-plugin</artifactId>
       <version>3.8.1</version>
       <configuration>
-      <source>1.11</source>
-      <target>1.11</target>
+      <source>1.8</source>
+      <target>1.8</target>
       <encoding>UTF-8</encoding>
       </configuration>
     </plugin>
@@ -132,11 +132,23 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <shadedArtifactAttached>true</shadedArtifactAttached>
             <transformers>
               <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>airteam.projects.airlogo.AirLogo</mainClass>
+                <mainClass>airteam.projects.airnigma.AirNigma</mainClass>
               </transformer>
             </transformers>
+            <minimizeJar>true</minimizeJar>
+            <filters>
+              <filter>
+                <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+               </filter>
+            </filters>
           </configuration>
         </execution>
+        
       </executions>
     </plugin>
 
@@ -154,11 +166,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <headerType>gui</headerType>
             <stayAlive>true</stayAlive>
             <icon>${project.basedir}/build-libs/app-icon.ico</icon>
-            <singleInstance> <mutexName>AirLogo-AirTeam</mutexName> </singleInstance>
+            <singleInstance> <mutexName>AirNigma-AirTeam</mutexName> </singleInstance>
             <jar>${project.build.directory}/${project.build.finalName}-shaded.jar</jar>
             <outfile>${project.build.directory}/${project.name}.exe</outfile>
  
-            <classPath><mainClass>airteam.projects.airlogo.AirLogo</mainClass></classPath>
+            <classPath><mainClass>airteam.projects.airnigma.AirNigma</mainClass></classPath>
             <jre>
               <minVersion>1.11.0</minVersion>
               <jdkPreference>preferJre</jdkPreference>
@@ -179,7 +191,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         </execution>
       </executions>
     </plugin>
-
+	
 	<!-- EXE Signature to remove AntiVirus false positives and windows defender popup -->
 	<!-- KeyGen Command 'keytool -genkey -alias airteam-airlogo -keyalg RSA -keystore "{DIR ON PC}\build-libs\app-keystore.jks"' -->
 	<plugin>
@@ -196,7 +208,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
            <name>${project.name}</name>
            <url>https://science-cup.pl</url>
            <keystore>${project.basedir}/build-libs/app-keystore.jks</keystore>
-           <alias>airteam-airlogo</alias>
+           <alias>airteam-airnigma</alias>
            <storepass>3kafBGhFPwBMfX9y</storepass>
          </configuration>
        </execution>
@@ -213,7 +225,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
           <phase>package</phase>
           <goals> <goal>single</goal> </goals>
           <configuration>
-            <finalName>AirLogo - AirTeam</finalName>
+            <finalName>AirNigma - AirTeam</finalName>
             <appendAssemblyId>false</appendAssemblyId>
             <descriptors> <descriptor>${project.basedir}/src/main/resources/assembly.xml</descriptor> </descriptors>
           </configuration>
