@@ -81,7 +81,7 @@ public class MiddleBarPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (InputPanel.getInputText().length() == 0) {
 					new AnalizePopup(
-							"O to przykładowy tekst do zaszyfrowania. Można tą wiadomośc zaszyfrować za pomocą szyfrów AES, DES, TripleDES, TwoFish i RSA.");
+							"Aby przeanalizować konkretny tekst, wpisz go lub importuj do pola wejściowego szyfrowania przed kliknięciem na przycisk analizuj.");
 				} else {
 					new AnalizePopup(InputPanel.getInputText());
 				}
