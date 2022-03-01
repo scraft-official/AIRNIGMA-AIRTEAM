@@ -140,7 +140,7 @@ public class CIP_VERNAM extends CipherObject {
 		add(alphabetField, "1, 1, fill, fill");
 		add(keyPassField, "1, 3, fill, fill");
 
-		JButton buttonSavePass = new CustomButton("ZAPISZ HASŁO", new Color(250, 250, 250),
+		JButton buttonSavePass = new CustomButton("ZAPISZ HASŁO", new Color(45, 150, 73),
 				new ImageIcon(GraphicsUtility.getSizedImage(GraphicsUtility.getInternalIcon("icons/save-icon.png"), 14, 14)));
 		buttonSavePass.addActionListener(new ActionListener() {
 			@Override
