@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -14,7 +15,12 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 public class JScrollBarUI extends BasicScrollBarUI {
 
 	@SuppressWarnings("serial")
-		private class ScrollBarButton extends JButton {
+	private class ScrollBarButton extends JButton {
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -5939275978199822780L;
 
 		public ScrollBarButton() {
 			setBorder(BorderFactory.createEmptyBorder());

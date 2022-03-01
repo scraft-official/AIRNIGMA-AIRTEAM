@@ -15,6 +15,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,7 +24,6 @@ import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicComboBoxUI;
@@ -32,14 +32,20 @@ import javax.swing.plaf.basic.ComboPopup;
 
 @SuppressWarnings("serial")
 public class CustomComboBox<E> extends JComboBox<E> {
-	private String labeText = "TEXT";
-	
-	private Color lineColor = new Color(255,255,255);
-	
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1795982514190806288L;
+
+	private String placeholder = "TEXT";
+
+	private Color foreground;
+	private Color background;
+
 	private boolean mouseOver;
-	
+
 	private BasicComboPopup pop;
-	
+
 	private class ComboUI extends BasicComboBoxUI {
 		@SuppressWarnings("rawtypes")
 		private CustomComboBox combo;
@@ -72,7 +78,7 @@ public class CustomComboBox<E> extends JComboBox<E> {
 
 				@Override
 				public void popupMenuWillBecomeVisible(PopupMenuEvent pme) {
-				   arrowButton.setBackground(new Color(200, 200, 200));
+					arrowButton.setBackground(new Color(200, 200, 200));
 				}
 			});
 		}
@@ -89,21 +95,25 @@ public class CustomComboBox<E> extends JComboBox<E> {
 			Rectangle2D r2 = ft.getStringBounds(combo.getTitleText(), g2d);
 			double height = getHeight() - in.top - in.bottom;
 			double textY = (height - r2.getHeight()) / 2;
-			g2d.drawString(combo.getTitleText(), in.right, (int) (in.top + textY + ft.getAscent() - 18));
+			g2d.drawString(combo.getTitleText(), in.right, (int) ((in.top + textY + ft.getAscent()) - 18));
 		}
 
 		private void createLineStyle(Graphics2D g2d) {
 			if (isFocusOwner()) {
 				int width = getWidth();
 				int height = getHeight();
-				g2d.setColor(lineColor);
-				g2d.fillRect(0, height - 2, width-1, 2);
+				g2d.fillRect(0, height - 2, width - 1, 2);
 			}
 		}
 
 		@Override
 		protected ComboPopup createPopup() {
 			pop = new BasicComboPopup(comboBox) {
+				/**
+				 *
+				 */
+				private static final long serialVersionUID = 443241751728482865L;
+
 				@Override
 				protected JScrollPane createScroller() {
 					JScrollPane scroll = new JScrollPane(list);
@@ -113,34 +123,32 @@ public class CustomComboBox<E> extends JComboBox<E> {
 					sb.setUnitIncrement(3);
 					sb.setPreferredSize(new Dimension(3, 25));
 					sb.setOpaque(false);
-					sb.setForeground(new Color(43, 138, 54, 255));
+					sb.setForeground(foreground);
 					sb.setBackground(new Color(0, 0, 0, 0));
 					scroll.setVerticalScrollBar(sb);
 					scroll.getViewport().setOpaque(false);
 					scroll.setOpaque(false);
 					return scroll;
 				}
-				
+
 				@Override
 				public void paintComponent(Graphics g) {
-					Graphics2D g2dd = (Graphics2D) g;
-					g2dd.setRenderingHint(
-			  		RenderingHints.KEY_ANTIALIASING,
-			  		RenderingHints.VALUE_ANTIALIAS_ON);
-					
-					g2dd.setColor(new Color(40,40,40));
-					g2dd.fillRoundRect(0, -8, getWidth()-2, getHeight()+7, 15, 15);
-					
-					g2dd.setColor(new Color(255, 255,255));
-					g2dd.setStroke(new BasicStroke(2));
-		   
-					g2dd.drawRoundRect(0, -8, getWidth()-2, getHeight()+7, 15, 15);
+					Graphics2D g2d = (Graphics2D) g;
+					g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+					g2d.setColor(background);
+					g2d.fillRoundRect(0, -8, getWidth() - 2, getHeight() + 7, 15, 15);
+
+					g2d.setColor(foreground);
+					g2d.setStroke(new BasicStroke(2));
+
+					g2d.drawRoundRect(0, -8, getWidth() - 2, getHeight() + 7, 15, 15);
 				}
-				
+
 			};
 			pop.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			pop.setOpaque(false);
-			pop.setBorder(new LineBorder(new Color(200, 200, 200), 0));
+			pop.setBorder(new EmptyBorder(0, 0, 0, 0));
 			return pop;
 		}
 
@@ -153,7 +161,7 @@ public class CustomComboBox<E> extends JComboBox<E> {
 			int width = getWidth();
 			int height = getHeight();
 			if (mouseOver) {
-				g2d.setColor(lineColor);
+				g2d.setColor(foreground);
 			} else {
 				g2d.setColor(new Color(150, 150, 150));
 			}
@@ -169,13 +177,17 @@ public class CustomComboBox<E> extends JComboBox<E> {
 		}
 	}
 
-	public CustomComboBox() {
+	public CustomComboBox(Color foreground, Color background) {
 		setOpaque(false);
-		setBackground(Color.WHITE);
 		setBorder(new EmptyBorder(15, 0, 5, 3));
 		setUI(new ComboUI(this));
-		setForeground(new Color(255, 255, 255));
+		setForeground(foreground);
 		setRenderer(new DefaultListCellRenderer() {
+			/**
+			 *
+			 */
+			private static final long serialVersionUID = 3460205392467137965L;
+
 			@Override
 			public Component getListCellRendererComponent(JList<?> jlist, Object o, int i, boolean bln, boolean bln1) {
 				JComponent com = (JComponent) super.getListCellRendererComponent(jlist, o, i, bln, bln1);
@@ -183,34 +195,34 @@ public class CustomComboBox<E> extends JComboBox<E> {
 				if (bln) {
 					com.setForeground(new Color(77, 209, 115));
 					com.setFont(new Font("Tahoma", Font.BOLD, 12));
-				}
-				else {
-					com.setForeground(new Color(255,255,255));
+				} else {
+					com.setForeground(foreground);
 					com.setFont(new Font("Tahoma", Font.BOLD, 12));
 				}
-				jlist.setSelectionForeground(new Color(255,255,255));
+				jlist.setSelectionForeground(foreground);
 				jlist.setOpaque(false);
 				com.setOpaque(false);
 				return com;
 			}
 		});
-	}
-	public Color getLineColor() {
-		return lineColor;
-	}
-	public String getTitleText() {
-		return labeText;
-	}
-	
-	public void setLineColor(Color lineColor) {
-		this.lineColor = lineColor;
+		this.foreground = foreground;
+		this.background = background;
 	}
 
-	public void setTitleText(String labeText) {
-		this.labeText = labeText;
+	public String getTitleText() {
+		return placeholder;
 	}
-	
+
+	public void setTitleText(String placeholder) {
+		this.placeholder = placeholder;
+	}
+
 	private class ArrowButton extends JButton {
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -3834123168212626435L;
 
 		public ArrowButton() {
 			setContentAreaFilled(false);
@@ -228,8 +240,8 @@ public class CustomComboBox<E> extends JComboBox<E> {
 			int size = 8;
 			int x = (width - size) / 2;
 			int y = (height - size) / 2;
-			int px[] = {x, x + size, x + size / 2};
-			int py[] = {y, y, y + size};
+			int px[] = { x, x + size, x + (size / 2) };
+			int py[] = { y, y, y + size };
 			g2d.setColor(getBackground());
 			g2d.fillPolygon(px, py, px.length);
 			g2d.dispose();
