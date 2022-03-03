@@ -1,0 +1,3 @@
+# List of generated media files. The columns are tab-separated:
+# id | media file type | display name | media file path
+33	windows	Windows	F:\Eclipse\AIRTEAM PROJECTS\AIRTEAM - AIRNIGMA\AIRTEAM-AIRNIGMA\installer\AirNigma_windows-x64_1.0.0.exe

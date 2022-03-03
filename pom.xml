@@ -34,7 +34,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
   <dependency>
     <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
+    <artifactId>bcpkix-jdk15on</artifactId>
     <version>1.70</version>
   </dependency>
   
@@ -135,7 +135,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <mainClass>airteam.projects.airnigma.AirNigma</mainClass>
               </transformer>
             </transformers>
-            <minimizeJar>true</minimizeJar>
+            <minimizeJar>false</minimizeJar>
             <filters>
               <filter>
                 <artifact>*:*</artifact>
@@ -151,6 +151,28 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         
       </executions>
     </plugin>
+    
+    <!-- EXE Signature to remove AntiVirus false positives and windows defender popup -->
+	<!-- KeyGen Command 'keytool -genkey -alias airteam-airlogo -keyalg RSA -keystore "{DIR ON PC}\build-libs\app-keystore.jks"' -->
+	<plugin>
+     <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-jarsigner-plugin</artifactId>
+     <version>1.2</version>
+     <executions>
+       <execution>
+         <goals>
+           <goal>sign</goal>
+         </goals>
+         <configuration>
+         	<archiveDirectory>${project.build.directory}</archiveDirectory>
+       		 <includes> <include>*.jar</include> </includes>
+           <keystore>${project.basedir}/build-libs/app-keystore.jks</keystore>
+           <alias>airteam-airnigma</alias>
+           <storepass>3kafBGhFPwBMfX9y</storepass>
+         </configuration>
+       </execution>
+   	 </executions>
+   </plugin>
 
     <!-- CONVERT .JAR FILE TO .EXE WITH LAUNCH4J -->
     <plugin>
@@ -191,29 +213,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         </execution>
       </executions>
     </plugin>
-	
-	<!-- EXE Signature to remove AntiVirus false positives and windows defender popup -->
-	<!-- KeyGen Command 'keytool -genkey -alias airteam-airlogo -keyalg RSA -keystore "{DIR ON PC}\build-libs\app-keystore.jks"' -->
-	<plugin>
-     <groupId>net.jsign</groupId>
-     <artifactId>jsign-maven-plugin</artifactId>
-     <version>4.0</version>
-     <executions>
-       <execution>
-         <goals>
-           <goal>sign</goal>
-         </goals>
-         <configuration>
-           <file>${project.build.directory}/${project.name}.exe</file>
-           <name>${project.name}</name>
-           <url>https://science-cup.pl</url>
-           <keystore>${project.basedir}/build-libs/app-keystore.jks</keystore>
-           <alias>airteam-airnigma</alias>
-           <storepass>3kafBGhFPwBMfX9y</storepass>
-         </configuration>
-       </execution>
-   	 </executions>
-   </plugin>
 
     <!-- CREATE ZIP FILE WITH JRE LIBS AND .EXE -->
     <plugin>

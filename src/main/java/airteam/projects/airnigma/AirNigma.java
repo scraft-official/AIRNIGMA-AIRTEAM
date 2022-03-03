@@ -24,6 +24,7 @@ import airteam.projects.airnigma.components.InputPanel;
 import airteam.projects.airnigma.components.MiddleBarPanel;
 import airteam.projects.airnigma.components.OutputPanel;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
+import airteam.projects.airnigma.utilities.LogUtility;
 
 public class AirNigma extends JFrame {
 
@@ -66,8 +67,6 @@ public class AirNigma extends JFrame {
 
 		getContentPane().add(backPanel);
 
-		Security.addProvider(new BouncyCastleProvider());
-
 		CipherManager.registerAllCiphers();
 		setVisible(true);
 	}
@@ -77,7 +76,10 @@ public class AirNigma extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		Security.setProperty("crypto.policy", "unlimited");
 		System.setProperty("sun.java2d.opengl", "true");
+		Security.addProvider( new BouncyCastleProvider());
+		LogUtility.logInfo(System.getProperty("java.version"));
 //		System.setProperty("sun.java2d.ddscale", "true");
 //		System.setProperty("sun.java2d.translaccel", "true");
 

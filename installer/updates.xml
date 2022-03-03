@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updateDescriptor baseUrl="">
+  <entry targetMediaFileId="33" updatableVersionMin="" updatableVersionMax="" fileName="AirNigma_windows-x64_1.0.0.exe" newVersion="1.0.0" newMediaFileId="33" fileSize="47794688" md5Sum="b6f906253929e3d0d1429f0f776a3feb" sha256Sum="3e7e6ad814b72b9c6c187085de0659e3b5c02301b81aa581d70beb383c2d3a53" bundledJre="windows-amd64-11.0.14.1.tar.gz" archive="false" singleBundle="false">
+    <comment language="pl" />
+  </entry>
+</updateDescriptor>
