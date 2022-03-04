@@ -27,22 +27,13 @@ import airteam.projects.airnigma.utilities.GraphicsUtility;
 import airteam.projects.airnigma.utilities.LogUtility;
 
 public class AirNigma extends JFrame {
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -38038145788829162L;
 	private static AirNigma AirNigma;
 
-	public AirNigma() {
+	public AirNigma(boolean showApp) {
 		AirNigma = this;
 
 		setIconImage(GraphicsUtility.getInternalIcon("icons/app-icon.png"));
 		JPanel backPanel = new JPanel() {
-			/**
-			 *
-			 */
-			private static final long serialVersionUID = -8787229288954040891L;
 
 			@Override
 			public void paintComponent(Graphics g) {
@@ -67,8 +58,10 @@ public class AirNigma extends JFrame {
 
 		getContentPane().add(backPanel);
 
-		CipherManager.registerAllCiphers();
-		setVisible(true);
+		try {
+			CipherManager.registerAllCiphers();
+		} catch(Exception e) {};
+		setVisible(showApp);
 	}
 
 	public static AirNigma getFrame() {
@@ -93,7 +86,7 @@ public class AirNigma extends JFrame {
 			@Override
 			public void run() {
 				try {
-					AirNigma = new AirNigma();
+					AirNigma = new AirNigma(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

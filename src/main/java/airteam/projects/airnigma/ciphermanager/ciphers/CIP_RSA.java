@@ -31,9 +31,6 @@ import airteam.projects.airnigma.utilities.EncryptionUtility;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class CIP_RSA extends CipherObject {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -7611347891910120568L;
 	private String cipherName = "SZYFR RSA (KEY-PAIR)";
 	private Boolean doAnalize = true;

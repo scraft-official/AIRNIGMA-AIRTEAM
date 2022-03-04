@@ -11,10 +11,6 @@ import java.awt.event.FocusEvent;
 import javax.swing.JTextArea;
 
 public class CustomTextArea extends JTextArea {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -797468578081549629L;
 	private boolean isFocused = false;
 	private String unfilledText = "Wprowadz tekst...";
 

@@ -32,9 +32,6 @@ import airteam.projects.airnigma.components.templates.CustomButton.CustomButtonU
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class MiddleBarPanel extends JPanel {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 2169698302685063539L;
 	private int dotSpacing = 25;
 	private int dotSize = 4;

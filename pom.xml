@@ -31,13 +31,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <version>1.8.0</version>
   </dependency>
   
-  <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+  <!-- BOUNCYCASTLE -->
   <dependency>
     <groupId>org.bouncycastle</groupId>
     <artifactId>bcpkix-jdk15on</artifactId>
     <version>1.70</version>
+    <scope>provided</scope>
   </dependency>
-  
 
   <!-- JSON -->
   <dependency>
@@ -132,47 +132,18 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <shadedArtifactAttached>true</shadedArtifactAttached>
             <transformers>
               <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>airteam.projects.airnigma.AirNigma</mainClass>
+                <manifestEntries>
+				  <Main-Class>airteam.projects.airnigma.AirNigma</Main-Class>
+				  <Class-Path>app-libs/bcprov-jdk15on-1.70.jar</Class-Path>
+				</manifestEntries>
               </transformer>
             </transformers>
-            <minimizeJar>false</minimizeJar>
-            <filters>
-              <filter>
-                <artifact>*:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                  </excludes>
-               </filter>
-            </filters>
+            <minimizeJar>true</minimizeJar>
           </configuration>
         </execution>
-        
       </executions>
     </plugin>
-    
-    <!-- EXE Signature to remove AntiVirus false positives and windows defender popup -->
-	<!-- KeyGen Command 'keytool -genkey -alias airteam-airlogo -keyalg RSA -keystore "{DIR ON PC}\build-libs\app-keystore.jks"' -->
-	<plugin>
-     <groupId>org.apache.maven.plugins</groupId>
-     <artifactId>maven-jarsigner-plugin</artifactId>
-     <version>1.2</version>
-     <executions>
-       <execution>
-         <goals>
-           <goal>sign</goal>
-         </goals>
-         <configuration>
-         	<archiveDirectory>${project.build.directory}</archiveDirectory>
-       		 <includes> <include>*.jar</include> </includes>
-           <keystore>${project.basedir}/build-libs/app-keystore.jks</keystore>
-           <alias>airteam-airnigma</alias>
-           <storepass>3kafBGhFPwBMfX9y</storepass>
-         </configuration>
-       </execution>
-   	 </executions>
-   </plugin>
+
 
     <!-- CONVERT .JAR FILE TO .EXE WITH LAUNCH4J -->
     <plugin>
@@ -194,15 +165,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
  
             <classPath><mainClass>airteam.projects.airnigma.AirNigma</mainClass></classPath>
             <jre>
-              <minVersion>1.11.0</minVersion>
-              <jdkPreference>preferJre</jdkPreference>
-              <path>./libs/jre</path>
+              <minVersion>11</minVersion>
+              <maxVersion>11.1</maxVersion>
             </jre>
             <versionInfo>
               <fileVersion>1.0.0.0</fileVersion>
               <txtFileVersion>${project.version}</txtFileVersion>
               <fileDescription>${project.name}</fileDescription>
-              <copyright>C</copyright>
+              <copyright>AirTeam</copyright>
               <productVersion>1.0.0.0</productVersion>
               <txtProductVersion>1.0.0.0</txtProductVersion>
               <productName>${project.name}</productName>
@@ -213,24 +183,41 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         </execution>
       </executions>
     </plugin>
-
-    <!-- CREATE ZIP FILE WITH JRE LIBS AND .EXE -->
+    
+    <plugin>
+	  <artifactId>maven-dependency-plugin</artifactId>
+	  <executions>
+	    <execution>
+	      <phase>install</phase>
+	      <goals>
+	        <goal>copy-dependencies</goal>
+	      </goals>
+	      <configuration>
+	      	<includeScope>provided</includeScope>
+	        <outputDirectory>${project.build.directory}/app-libs</outputDirectory>
+	      </configuration>
+	    </execution>
+	  </executions>
+	</plugin>
+	
+	<!-- CREATE ZIP FILE WITH DEPENDECIES LIBS, JAR AND .EXE -->
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-assembly-plugin</artifactId>
       <version>3.3.0</version>
       <executions>
         <execution>
-          <phase>package</phase>
+          <phase>install</phase>
           <goals> <goal>single</goal> </goals>
           <configuration>
-            <finalName>AirNigma - AirTeam</finalName>
+            <finalName>AirNigma - AirTeam (FULL APP PACK)</finalName>
             <appendAssemblyId>false</appendAssemblyId>
             <descriptors> <descriptor>${project.basedir}/src/main/resources/assembly.xml</descriptor> </descriptors>
           </configuration>
         </execution>
       </executions>
     </plugin>
+	
   </plugins>
 </build>
 </project>

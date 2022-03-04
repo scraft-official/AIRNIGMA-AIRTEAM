@@ -26,9 +26,6 @@ import airteam.projects.airnigma.utilities.EncryptionUtility;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class CIP_TRIPLEDES extends CipherObject {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1188914938503864309L;
 	private String cipherName = "SZYFR TRIPLE-DES";
 	private Boolean doAnalize = true;

@@ -29,10 +29,6 @@ import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 @SuppressWarnings("serial")
 public class SelectBlockSizePopup extends JPanel {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -6843707385585379679L;
 	private int width = 600;
 	private int height = 250;
 

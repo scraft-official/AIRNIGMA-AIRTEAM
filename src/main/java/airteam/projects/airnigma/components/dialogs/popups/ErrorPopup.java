@@ -18,10 +18,6 @@ import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 @SuppressWarnings("serial")
 public class ErrorPopup extends JPanel {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 2643527015794338927L;
 	private int width = 600;
 	private int height = 250;
 

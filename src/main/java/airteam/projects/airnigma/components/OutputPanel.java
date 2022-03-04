@@ -34,10 +34,6 @@ import airteam.projects.airnigma.savemanager.SaveManager;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class OutputPanel extends JPanel {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 8799478668304317826L;
 	private static CustomTextArea textPane = new CustomTextArea();
 	private static OutputPanel instance;
 

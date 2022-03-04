@@ -32,11 +32,6 @@ import javax.swing.plaf.basic.ComboPopup;
 
 @SuppressWarnings("serial")
 public class CustomComboBox<E> extends JComboBox<E> {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1795982514190806288L;
-
 	private String placeholder = "TEXT";
 
 	private Color foreground;
@@ -218,10 +213,6 @@ public class CustomComboBox<E> extends JComboBox<E> {
 	}
 
 	private class ArrowButton extends JButton {
-
-		/**
-		 *
-		 */
 		private static final long serialVersionUID = -3834123168212626435L;
 
 		public ArrowButton() {

@@ -5,6 +5,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Security;
 import java.security.spec.EncodedKeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -15,6 +16,8 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class EncryptionUtility {
 
@@ -104,6 +107,9 @@ public class EncryptionUtility {
 
 	public static SecretKey generateKey(int blockSize, String algorithm, String provider) {
 		try {
+			if (provider.equals("BC") &&Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+		    Security.addProvider(new BouncyCastleProvider());
+			}
 			KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm, provider);
 			keyGenerator.init(blockSize);
 			SecretKey key = keyGenerator.generateKey();

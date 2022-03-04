@@ -26,10 +26,6 @@ import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 @SuppressWarnings("serial")
 public class CustomDialogPanel extends JPanel {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -2694439844986770220L;
 	private int borderRadius = 15;
 	private int borderPadding = 18;
 

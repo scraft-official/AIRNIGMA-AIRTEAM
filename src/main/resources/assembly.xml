@@ -12,13 +12,13 @@
             <outputDirectory />
             <includes>
                 <include>${project.name}.exe</include>
+                <include>${project.artifactId}-${project.version}-shaded.jar</include>
             </includes>
         </fileSet>
 
         <fileSet>
-            <directory>${project.basedir}/build-libs/jdk-11</directory>
-            <outputDirectory>libs/jre</outputDirectory>
+            <directory>${project.build.directory}/app-libs/</directory>
+            <outputDirectory>app-libs</outputDirectory>
         </fileSet>
     </fileSets>
-
 </assembly>

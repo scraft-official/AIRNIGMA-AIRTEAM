@@ -51,10 +51,6 @@ import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class AnalizePopup extends JPanel {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -6202947442131249080L;
 	private int width = 700;
 	private int height = 550;
 

@@ -25,8 +25,6 @@ import airteam.projects.airnigma.components.templates.CustomComboBox;
 import airteam.projects.airnigma.components.templates.JScrollBarUI;
 
 public class OptionsPanel extends JPanel {
-	private static final long serialVersionUID = 1269424937834984948L;
-
 	@SuppressWarnings("rawtypes")
 	private static CustomComboBox combobox = new CustomComboBox(new Color(250, 250, 250), new Color(40, 40, 40));
 

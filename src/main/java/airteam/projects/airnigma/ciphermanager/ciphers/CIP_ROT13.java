@@ -29,9 +29,6 @@ import airteam.projects.airnigma.components.templates.CustomTextField;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class CIP_ROT13 extends CipherObject {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -8876855636897843064L;
 	private String cipherName = "SZYFR CEZARA (ROT 13)";
 	private Boolean doAnalize = false;
@@ -44,12 +41,10 @@ public class CIP_ROT13 extends CipherObject {
 
 	private int displacement = 13;
 
-	HashMap<Character, Double> englishLetterFrequency = new HashMap<Character, Double>() {
+	HashMap<Character, Double> letterFrequency = new HashMap<Character, Double>() {
 		/**
 		 * Map of letter frequency in english alphabet.
 		 */
-		private static final long serialVersionUID = 6733435246318717596L;
-
 		{
 			put('e', 12.7);
 			put('t', 9.06);
@@ -181,7 +176,7 @@ public class CIP_ROT13 extends CipherObject {
 			}
 		});
 
-		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
+		cipherChart.setIcon(new ImageIcon(renderCipherChart()));
 
 		JLabel cipherCharTitle = new JLabel("ANALIZA STATYCZNA LITER");
 		cipherCharTitle.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -214,7 +209,7 @@ public class CIP_ROT13 extends CipherObject {
 		double lowestDifference = Double.POSITIVE_INFINITY;
 		int possibleKey = 0;
 
-		for (int k = 1; k <= englishLetterFrequency.size(); k++) {
+		for (int k = 1; k <= letterFrequency.size(); k++) {
 			String newDecodedText = decode(text.toLowerCase(), k, "abcdefghijklmnopqrstuvwxyz");
 			double newDifference = getDifferenceFromAlpha(newDecodedText);
 
@@ -228,14 +223,14 @@ public class CIP_ROT13 extends CipherObject {
 
 	public double getDifferenceFromAlpha(String text) {
 		double sum = 0;
-		for (char c : englishLetterFrequency.keySet()) {
+		for (char c : letterFrequency.keySet()) {
 			int count = text.length() - text.replace(String.valueOf(c), "").length();
-			sum = sum + Math.abs(((count * 100) / text.length()) - englishLetterFrequency.get(c));
+			sum = sum + Math.abs(((count * 100) / text.length()) - letterFrequency.get(c));
 		}
-		return (sum / englishLetterFrequency.size());
+		return (sum / letterFrequency.size());
 	}
 
-	public BufferedImage renderCipherChar() {
+	public BufferedImage renderCipherChart() {
 		String inputText = InputPanel.getInputText().toUpperCase();
 		HashMap<Character, Integer> alphaCountMap = new HashMap<>();
 
@@ -338,7 +333,7 @@ public class CIP_ROT13 extends CipherObject {
 
 			stbuilder.append(alpha.charAt(index));
 		}
-		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
+		cipherChart.setIcon(new ImageIcon(renderCipherChart()));
 		return stbuilder.toString();
 	}
 
@@ -368,7 +363,7 @@ public class CIP_ROT13 extends CipherObject {
 
 			stbuilder.append(alpha.charAt(index));
 		}
-		cipherChart.setIcon(new ImageIcon(renderCipherChar()));
+		cipherChart.setIcon(new ImageIcon(renderCipherChart()));
 		return stbuilder.toString();
 	}
 

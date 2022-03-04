@@ -27,9 +27,6 @@ import airteam.projects.airnigma.utilities.EncryptionUtility;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class CIP_TWOFISH extends CipherObject {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1476750948944382775L;
 	private String cipherName = "SZYFR TWOFISH";
 	private Boolean doAnalize = true;

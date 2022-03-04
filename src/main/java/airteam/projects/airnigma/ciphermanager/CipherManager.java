@@ -17,7 +17,7 @@ public class CipherManager {
 
 	private static CIPHER_MODE cipherMode = CIPHER_MODE.ENCODE;
 
-	public static void registerAllCiphers() {
+	public static void registerAllCiphers() throws Exception {
 		Reflections reflections = new Reflections("airteam.projects.airnigma.ciphermanager.ciphers");
 
 		Set<Class<? extends CipherObject>> allCipherClasses = reflections.getSubTypesOf(CipherObject.class);
@@ -28,8 +28,8 @@ public class CipherManager {
 				registeredCipheres.add(cipher);
 				LogUtility.logInfo(cipher.getCipherName());
 			} catch (Exception e) {
-				e.printStackTrace();
 				LogUtility.logError("Wystapil problem z rejestracja obiektu szyfru!");
+				throw new CipherException("Wystapil problem z rejestracja obiektu szyfru!");
 			}
 		}
 
@@ -107,4 +107,12 @@ public class CipherManager {
 	public enum CIPHER_MODE {
 		DECODE, ENCODE
 	}
+	
+	@SuppressWarnings("serial")
+	public static class CipherException extends Exception {
+		public CipherException(String msg) {
+			super(msg);
+		}
+	}
+	
 }

@@ -18,10 +18,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 public class CustomButton extends JButton {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -1411686065785936638L;
 
 	public CustomButton(String title, Color buttonColor, ImageIcon icon) {
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

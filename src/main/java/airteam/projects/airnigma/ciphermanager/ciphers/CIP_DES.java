@@ -26,9 +26,6 @@ import airteam.projects.airnigma.utilities.EncryptionUtility;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class CIP_DES extends CipherObject {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -4243050504465367720L;
 	private String cipherName = "SZYFR DES";
 	private Boolean doAnalize = true;

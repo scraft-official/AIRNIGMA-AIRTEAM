@@ -32,9 +32,6 @@ import airteam.projects.airnigma.savemanager.SaveManager;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class InputPanel extends JPanel {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -922998793908071775L;
 	private static CustomTextArea textPane = new CustomTextArea();
 	private static InputPanel instance;

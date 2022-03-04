@@ -27,9 +27,6 @@ import airteam.projects.airnigma.savemanager.SaveManager;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class CIP_VERNAM extends CipherObject {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 3061941595280247380L;
 	private String cipherName = "SZYFR VERNAMA (One-Time-Pad)";
 	private Boolean doAnalize = false;

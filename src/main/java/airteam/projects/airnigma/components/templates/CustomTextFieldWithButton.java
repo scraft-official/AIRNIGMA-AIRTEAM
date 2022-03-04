@@ -12,10 +12,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 public class CustomTextFieldWithButton extends JPanel {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 7292862744056945839L;
 	private CustomTextField textField;
 	private JButton importButton;
 

@@ -12,10 +12,6 @@ import airteam.projects.airnigma.AirNigma;
 
 @SuppressWarnings("serial")
 public class CustomDialogFrame extends JDialog {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -7788773261285845546L;
 	private CustomDialogPanel dialogPanel;
 
 	public CustomDialogFrame(String name, int dialogWidth, int dialogHeight, boolean onlyAcceptButton,

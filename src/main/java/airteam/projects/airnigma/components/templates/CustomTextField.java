@@ -16,10 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class CustomTextField extends JTextField {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -1049512417772669746L;
 	private boolean mouseOver = false;
 	private boolean isFocused = false;
 	private boolean showRequiredHint = false;

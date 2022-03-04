@@ -27,9 +27,6 @@ import airteam.projects.airnigma.utilities.EncryptionUtility;
 import airteam.projects.airnigma.utilities.GraphicsUtility;
 
 public class CIP_AES extends CipherObject {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -7831219318731534448L;
 	private String cipherName = "SZYFR AES";
 	private Boolean doAnalize = true;

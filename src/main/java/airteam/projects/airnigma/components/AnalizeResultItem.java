@@ -13,9 +13,6 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 public class AnalizeResultItem extends JPanel {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -3789699868978669716L;
 
 	public AnalizeResultItem(String title, long keyGenerationTimespan, long encryptionTimespan, long decryptionTimespan) {
