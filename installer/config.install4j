@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="9.0.6" transformSequenceNumber="9">
-  <directoryPresets config="F:/Eclipse/AIRTEAM PROJECTS/AIRTEAM - AIRNIGMA/AIRTEAM-AIRNIGMA/installer" />
+  <directoryPresets config="F:/Eclipse/AIRTEAM PROJECTS/AIRTEAM - AIRNIGMA/AIRTEAM-AIRNIGMA/target/app-libs/bcprov-jdk15on-1.70.jar" />
   <application name="AirTeam - AirNigma" applicationId="1482-5267-5162-4406" mediaDir="F:/Eclipse/AIRTEAM PROJECTS/AIRTEAM - AIRNIGMA/AIRTEAM-AIRNIGMA/installer" compression="8" shortName="AirNigma" publisher="AirTeam" publisherWeb="https://science-cup.pl" version="1.0.0" convertDotsToUnderscores="false" convertSpacesToUnderscores="false" macVolumeId="fb6adda02bdd5833" javaMinVersion="11" javaMaxVersion="11">
     <languages>
       <principalLanguage id="pl" />
@@ -18,8 +18,8 @@
       <mountPoint id="47" location="app-libs/dependencies" />
     </mountPoints>
     <entries>
+      <fileEntry mountPoint="47" file="F:/Eclipse/AIRTEAM PROJECTS/AIRTEAM - AIRNIGMA/AIRTEAM-AIRNIGMA/target/app-libs/bcprov-jdk15on-1.70.jar" />
       <fileEntry mountPoint="44" file="F:/Eclipse/AIRTEAM PROJECTS/AIRTEAM - AIRNIGMA/AIRTEAM-AIRNIGMA/target/AirTeam-AirNigma-1.0.0-shaded.jar" />
-      <fileEntry mountPoint="47" file="F:/Eclipse/AIRTEAM PROJECTS/AIRTEAM - AIRNIGMA/AIRTEAM-AIRNIGMA/build-libs/dependecies/bc.jar" />
     </entries>
   </files>
   <launchers>
@@ -28,7 +28,7 @@
       <splashScreen show="true" bitmapFile="F:/Eclipse/AIRTEAM PROJECTS/LOGA/AirNigma-splashscreen@2x.png" />
       <java mainClass="airteam.projects.airnigma.AirNigma">
         <classPath>
-          <archive location="app-libs/dependencies/bc.jar" failOnError="false" />
+          <archive location="app-libs/dependencies/bcprov-jdk15on-1.70.jar" failOnError="false" />
           <archive location="app-libs/AirTeam-AirNigma-1.0.0-shaded.jar" failOnError="false" />
         </classPath>
       </java>
@@ -504,7 +504,10 @@ return console.askYesNo(message, true);
     </styles>
   </installerGui>
   <mediaSets>
-    <windows name="Windows" id="33">
+    <windows name="Windows 32bit" id="33" jreBitType="32">
+      <jreBundle installOnlyIfNecessary="true" />
+    </windows>
+    <windows name="Windows 64bit" id="52">
       <jreBundle installOnlyIfNecessary="true" />
     </windows>
   </mediaSets>

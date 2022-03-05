@@ -38,14 +38,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <version>1.70</version>
     <scope>provided</scope>
   </dependency>
-
-  <!-- JSON -->
-  <dependency>
-    <groupId>org.json</groupId>
-    <artifactId>json</artifactId>
-    <version>20210307</version>
-    <scope>compile</scope>
-  </dependency>
   
   <!-- REFLECTION LIBRARY -->
   <dependency>

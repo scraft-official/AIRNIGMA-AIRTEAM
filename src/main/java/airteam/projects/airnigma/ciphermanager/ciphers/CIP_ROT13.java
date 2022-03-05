@@ -36,14 +36,14 @@ public class CIP_ROT13 extends CipherObject {
 	private String alphabetText = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private String lowcaseAlphabet = alphabetText.toLowerCase();
 	private String upcaseAlphabet = alphabetText.toUpperCase();
+	
+	private int cipherDisplacement = 13;
 
-	JLabel cipherChart = new JLabel();
+	private JLabel cipherChart = new JLabel();
 
-	private int displacement = 13;
-
-	HashMap<Character, Double> letterFrequency = new HashMap<Character, Double>() {
-		/**
-		 * Map of letter frequency in english alphabet.
+	HashMap<Character, Double> lettersFrequencies = new HashMap<Character, Double>() {
+		/*
+		 * Map of letters frequencies in english alphabet for static analize.
 		 */
 		{
 			put('e', 12.7);
@@ -92,7 +92,7 @@ public class CIP_ROT13 extends CipherObject {
 		displacementField.setLineColor(new Color(150, 150, 150), new Color(250, 250, 250));
 		displacementField.setForeground(new Color(250, 250, 250));
 		displacementField.setCaretColor(new Color(250, 250, 250));
-		displacementField.setText(String.valueOf(displacement));
+		displacementField.setText(String.valueOf(cipherDisplacement));
 		displacementField.setRquiredHint("* Wprowadź liczbę!");
 		displacementField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -116,7 +116,7 @@ public class CIP_ROT13 extends CipherObject {
 					if (value >= alphabetText.length()) {
 						value = (value - ((value / alphabetText.length()) * alphabetText.length()));
 					}
-					displacement = value;
+					cipherDisplacement = value;
 					displacementField.showRequiredHint(false);
 					CipherManager.updateOutput();
 				} catch (Exception e) {
@@ -165,9 +165,9 @@ public class CIP_ROT13 extends CipherObject {
 					if (value >= alphabetText.length()) {
 						value = Math.floorMod(value, alphabetText.length());
 					}
-					displacement = value;
+					cipherDisplacement = value;
 				} catch (Exception e) {
-					displacement = Math.floorMod(displacement, alphabetText.length());
+					cipherDisplacement = Math.floorMod(cipherDisplacement, alphabetText.length());
 				}
 
 				alphabetField.showRequiredHint(false);
@@ -209,7 +209,7 @@ public class CIP_ROT13 extends CipherObject {
 		double lowestDifference = Double.POSITIVE_INFINITY;
 		int possibleKey = 0;
 
-		for (int k = 1; k <= letterFrequency.size(); k++) {
+		for (int k = 1; k <= lettersFrequencies.size(); k++) {
 			String newDecodedText = decode(text.toLowerCase(), k, "abcdefghijklmnopqrstuvwxyz");
 			double newDifference = getDifferenceFromAlpha(newDecodedText);
 
@@ -223,11 +223,11 @@ public class CIP_ROT13 extends CipherObject {
 
 	public double getDifferenceFromAlpha(String text) {
 		double sum = 0;
-		for (char c : letterFrequency.keySet()) {
+		for (char c : lettersFrequencies.keySet()) {
 			int count = text.length() - text.replace(String.valueOf(c), "").length();
-			sum = sum + Math.abs(((count * 100) / text.length()) - letterFrequency.get(c));
+			sum = sum + Math.abs(((count * 100) / text.length()) - lettersFrequencies.get(c));
 		}
-		return (sum / letterFrequency.size());
+		return (sum / lettersFrequencies.size());
 	}
 
 	public BufferedImage renderCipherChart() {
@@ -326,7 +326,7 @@ public class CIP_ROT13 extends CipherObject {
 				stbuilder.append(ch);
 				continue;
 			}
-			index = index + displacement;
+			index = index + cipherDisplacement;
 			if (index >= alpha.length()) {
 				index = index - alpha.length();
 			}
@@ -356,7 +356,7 @@ public class CIP_ROT13 extends CipherObject {
 				stbuilder.append(ch);
 				continue;
 			}
-			index = index - displacement;
+			index = index - cipherDisplacement;
 			if (index < 0) {
 				index = index + alpha.length();
 			}
