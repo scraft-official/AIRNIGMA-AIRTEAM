@@ -30,6 +30,7 @@ public class AirNigma extends JFrame {
 	private static AirNigma AirNigma;
 
 	public AirNigma(boolean showApp) {
+		if(!showApp) System.setProperty("java.awt.headless", "true");
 		AirNigma = this;
 
 		setIconImage(GraphicsUtility.getInternalIcon("icons/app-icon.png"));

@@ -14,8 +14,10 @@ import airteam.projects.airnigma.AirNigma;
 import airteam.projects.airnigma.ciphermanager.CipherManager;
 import airteam.projects.airnigma.ciphermanager.ciphers.CIP_ROT13;
 import airteam.projects.airnigma.ciphermanager.ciphers.CipherObject;
+
 public class AutomatedTests {
 	AirNigma app = new AirNigma(false);
+	
 	
 	@Test
 	@DisplayName("Ciphers registration and keygen check")
