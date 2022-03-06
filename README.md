@@ -34,10 +34,11 @@ Dokumentacje aplikacji znajdziesz tutaj: [AIRNIGMA - DOKUMENTACJA.pdf](https://g
    ```mvn clean install```
    - Gotowe pliki aplikacji znajdują się w lokalizacji **/target/**
    
-   `* Plik z koncówką -shaded.jar jest to plik JAR aplikacji ze wszystkimi bibliotekami.`\
-   `* Plik z koncówką .exe jest to plik EXE aplikacji ze wszystkimi bibliotekami.`\
-   `* Plik zakończony tylko .jar jest to plik JAR aplikacji bez bibliotek. (Brak możliwości uruchomienia)`
-
+   `* Plik z koncówką -shaded.jar jest to plik JAR aplikacji ze wszystkimi bibliotekami oprócz bibliotek zawartych w folderze app-libs.`\
+   `* Plik z koncówką .exe jest to plik EXE aplikacji ze wszystkimi bibliotekami oprócz bibliotek zawartych w folderze app-libs.`\
+   `* Plik zakończony tylko .jar jest to plik JAR aplikacji bez bibliotek. (Brak możliwości uruchomienia)`\
+   `* Plik zakończony -(FULL APP PACK).zip zawiera wszystkie biblioteki (app-libs) potrzebne do uruchomienia aplikacji, a także plik .exe oraz plik -shaded.jar.`
+   
 # DODATKOWE INFORMACJE:
 * Wykorzystane w aplikacji ikony zostały pobrane ze strony https://www.flaticon.com
 * Testy automatyczne znajdują się w katalogu plików źródłowych „SRC/TEST/JAVA” i są uruchamiane podczas eksportowania aplikacji za pomocą narzędzia Apache Maven.
