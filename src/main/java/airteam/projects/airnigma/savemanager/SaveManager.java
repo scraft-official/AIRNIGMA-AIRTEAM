@@ -18,7 +18,7 @@ public class SaveManager {
 
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fileChooser.setDialogTitle("IMPORTUJ PLIK");
+		fileChooser.setDialogTitle("AIRNIGMA - IMPORTUJ PLIK");
 
 		if (fileChooser.showOpenDialog(AirNigma.getFrame()) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
@@ -53,7 +53,7 @@ public class SaveManager {
 	public static boolean exportTextFile(String fileName, String fileContent) {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setDialogTitle("AIRNIGMA - IMPORTUJ PLIK TEKSTOWY");
+		fileChooser.setDialogTitle("AIRNIGMA - EKSPORTUJ PLIK TEKSTOWY");
 
 		String path = null;
 		if (fileChooser.showOpenDialog(AirNigma.getFrame()) == JFileChooser.APPROVE_OPTION) {
@@ -90,7 +90,7 @@ public class SaveManager {
 	public static boolean exportTextFile(HashMap<String, String> filesDataMap) {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setDialogTitle("AIRNIGMA - IMPORTUJ PLIK TEKSTOWY");
+		fileChooser.setDialogTitle("AIRNIGMA - EKSPORTUJ PLIK TEKSTOWY");
 
 		String path = null;
 		if (fileChooser.showOpenDialog(AirNigma.getFrame()) == JFileChooser.APPROVE_OPTION) {
