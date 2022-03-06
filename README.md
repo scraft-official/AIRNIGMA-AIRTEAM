@@ -9,7 +9,7 @@ Zaszyfrowaną wiadomość lub klucz można zapisać na dysku, w celu późniejsz
 ### WYMAGANIA SYSTEMOWE:
    - Windows 10 (32 bit / 64 bit)*,
    - 2GB+ RAM,
-   - ~180+ MB Przestrzeni Dyskowej
+   - ~120+ MB Przestrzeni Dyskowej
 
 `* Aplikacja była testowana na wersji systemu Windows 10, lecz niewykluczone jest wsparcie, także dla innych wersji systemów Windows.`
 
